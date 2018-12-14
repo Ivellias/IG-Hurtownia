@@ -6,11 +6,15 @@ public class ImplementacjaSrodka : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(100f, 50f);
+		UstawWysokosc(1056f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	private void UstawWysokosc(float wysokosc){
+			gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, wysokosc);
 	}
 }
