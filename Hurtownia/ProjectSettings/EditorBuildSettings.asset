@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EkranGlowny.unity
     guid: 4204764f95f2c5a4ca5d372bbe42e256
+  - enabled: 1
+    path: Assets/Scenes/ZalogowanyUzytkownik.unity
+    guid: 367445b0b26ed8149b47f1e0fb6fbb68
   m_configObjects: {}
