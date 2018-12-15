@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ImplementacjaSrodka : MonoBehaviour {
 
+	public GameObject prefab;
 	// Use this for initialization
 	void Start () {
+		gameObject.AddComponent(prefab);
+		Instantiate(prefab, new Vector3(150f, 150f, 0), Quaternion.identity);
 		UstawWysokosc(1056f);
 	}
 	
