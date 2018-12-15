@@ -7,10 +7,8 @@ public class ImplementacjaSrodka : MonoBehaviour {
 	public GameObject samTekst;
 	// Use this for initialization
 	void Start () {
-		samTekst.transform.parent = gameObject.transform;
-		Instantiate(samTekst, new Vector3(0, 10, 0), Quaternion.identity);
-		UstawWysokosc(WezWysokoscObiektu(samTekst));
-		GameObject.Destroy(samTekst, 0f);
+		UstawWysokosc(ZainicjalizujObiekty());
+		UsunObiekty();
 	}
 	
 	// Update is called once per frame
@@ -21,9 +19,14 @@ public class ImplementacjaSrodka : MonoBehaviour {
 	private void UstawWysokosc(float wysokosc){
 			gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, wysokosc);
 	}
-	
-	private float WezWysokoscObiektu(GameObject obiekt){
- 		RectTransform rt = (RectTransform)obiekt.transform;
- 		return rt.rect.height;
+
+	private float ZainicjalizujObiekty(){
+		GameObject tmp = Instantiate(samTekst, gameObject.transform);
+		float wysokosc = tmp.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+		return wysokosc;
+	}
+
+	private void UsunObiekty(){
+				GameObject.Destroy(samTekst, 0f);
 	}
 }
