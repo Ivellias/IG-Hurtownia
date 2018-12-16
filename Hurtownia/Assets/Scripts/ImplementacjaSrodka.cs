@@ -5,19 +5,27 @@ using UnityEngine.UI;
 
 public class ImplementacjaSrodka : MonoBehaviour {
 
+
 	public GameObject samTekst;
 	private GameObject przykladowyTekst;
 	private GameObject zamowienia;
 	private GameObject faktury;
 	private GameObject opcje;
-	private GameObject oNas;
-	private GameObject kontakt;
 
-	void Start () {
-	}
 
-	
-	public void Zamowienia(){
+	public GameObject oNas;
+    public GameObject kontakt;
+
+
+    //tutaj jest lista
+    private List<GameObject> listaObiektow = new List<GameObject>();
+
+    void Start()
+    {
+        listaObiektow = new List<GameObject>();
+    }
+
+    public void Zamowienia(){
 		zamowienia = UstawPrefab("Zamowienia", "Tekst");
 	}
 
@@ -30,12 +38,22 @@ public class ImplementacjaSrodka : MonoBehaviour {
 	}
 
 	public void ONas(){
-		oNas = UstawPrefab("O Nas", "Tekst");
-	}
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(oNas, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+    }
 
 	public void Kontakt(){
-		kontakt = UstawPrefab("Kontakt", "Tekst");
-	}
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(kontakt, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+    }
 
 	private GameObject UstawPrefab(string tytul, string tekst){
 		UsunWszystkiePrefaby();
@@ -59,10 +77,19 @@ public class ImplementacjaSrodka : MonoBehaviour {
 	}
 
 	private void UsunWszystkiePrefaby(){
-		GameObject.Destroy(zamowienia, 0f);
-		GameObject.Destroy(faktury, 0f);
-		GameObject.Destroy(opcje, 0f);
-		GameObject.Destroy(oNas, 0f);
-		GameObject.Destroy(kontakt, 0f);
+        //xD
+		//GameObject.Destroy(zamowienia, 0f);
+		//GameObject.Destroy(faktury, 0f);
+		//GameObject.Destroy(opcje, 0f);
+
+        //USUN WSZYSTKIE ELEMENTY Z LISTY PREFABOW
+        if(listaObiektow.Count != 0){
+            foreach (GameObject x in listaObiektow)
+            {
+                GameObject.Destroy(x, 0f);
+            }
+            listaObiektow = new List<GameObject>();
+        }
+        
 	}
 }
