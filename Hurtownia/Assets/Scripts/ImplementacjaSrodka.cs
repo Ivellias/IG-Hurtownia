@@ -18,6 +18,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject kontakt;
     public GameObject logowanie;
     public GameObject wylogowano;
+    public GameObject wyszukiwanie;
 
 
     //tutaj jest lista
@@ -40,7 +41,18 @@ public class ImplementacjaSrodka : MonoBehaviour {
 		opcje = UstawPrefab("Opcje", "Tekst");
 	}
 
-	public void ONas(){
+    public void Wyszukiwanie()
+    {
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(wyszukiwanie, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+    }
+
+    public void ONas(){
         UsunWszystkiePrefaby();
         GameObject prefab = Instantiate(oNas, gameObject.transform);
         float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
