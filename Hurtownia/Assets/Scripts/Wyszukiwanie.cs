@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class Wyszukiwanie : MonoBehaviour, IOnStart {
 
+    private string doWyszukania; 
 
     public float doStartThingsAndReturnHeightOfThisElement()
     {
         float wysokosc = 100f;
         wysokosc += (transform.childCount+1) * 220f; 
 
-
+        //tu ma pytac baze danych o mozliwosci
 
 
         return wysokosc;
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void ustawCoWyszukac(string a)
+    {
+        doWyszukania = a;
+    }
+
 }

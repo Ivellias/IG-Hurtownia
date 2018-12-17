@@ -11,10 +11,5 @@ public class SamTekst : MonoBehaviour, IOnStart {
         
         return (length / 51 + 1) * 28 + 80;
     }
-	
-    public void Start()
-    {
-        Debug.Log(doStartThingsAndReturnHeightOfThisElement());
-    }
 
 }

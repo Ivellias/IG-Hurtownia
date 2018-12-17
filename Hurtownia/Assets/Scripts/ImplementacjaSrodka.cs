@@ -6,11 +6,8 @@ using UnityEngine.UI;
 public class ImplementacjaSrodka : MonoBehaviour {
 
 
+
 	public GameObject samTekst;
-	private GameObject przykladowyTekst;
-	private GameObject zamowienia;
-	private GameObject faktury;
-	private GameObject opcje;
 
     public GameObject scrollBar;
 
@@ -18,7 +15,9 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject kontakt;
     public GameObject logowanie;
     public GameObject wylogowano;
+    public GameObject inputWyszukiwania;
     public GameObject wyszukiwanie;
+    public GameObject opcje;
 
 
     //tutaj jest lista
@@ -30,26 +29,40 @@ public class ImplementacjaSrodka : MonoBehaviour {
     }
 
     public void Zamowienia(){
-		zamowienia = UstawPrefab("Zamowienia", "Tekst");
+
 	}
 
 	public void Faktury(){
-		faktury = UstawPrefab("Faktury", "Tekst");
+
 	}
 
 	public void Opcje(){
-		opcje = UstawPrefab("Opcje", "Tekst");
-	}
-
-    public void Wyszukiwanie()
-    {
         UsunWszystkiePrefaby();
-        GameObject prefab = Instantiate(wyszukiwanie, gameObject.transform);
+        GameObject prefab = Instantiate(opcje, gameObject.transform);
         float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
         UstawWysokosc(wysokosc);
         //DODAJ DO LISTY PREFABOW
         listaObiektow.Add(prefab);
         SprawdzScroll(wysokosc);
+    }
+
+    public void Wyszukiwanie()
+    {
+        if(inputWyszukiwania.GetComponent<InputField>().text != "")
+        {
+            UsunWszystkiePrefaby();
+            GameObject prefab = Instantiate(wyszukiwanie, gameObject.transform);
+            float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+
+            //tu mina do refaktoryzacji
+            prefab.GetComponent<Wyszukiwanie>().ustawCoWyszukac(inputWyszukiwania.GetComponent<InputField>().text);
+            inputWyszukiwania.GetComponent<InputField>().text = "";
+
+            UstawWysokosc(wysokosc);
+            //DODAJ DO LISTY PREFABOW
+            listaObiektow.Add(prefab);
+            SprawdzScroll(wysokosc);
+        }
     }
 
     public void ONas(){

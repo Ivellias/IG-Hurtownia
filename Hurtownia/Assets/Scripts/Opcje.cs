@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class Opcje : MonoBehaviour, IOnStart {
 
+    public GameObject zmianaHasla;
+
     public float doStartThingsAndReturnHeightOfThisElement()
     {
-        float wysokosc = 0f;
-
-
-
-
-
-        return wysokosc;
+        zmianaHasla.GetComponent<ZmianaHasla>().WyjscieZmianaHasla();
+        return 400f;
     }
-
-
-
-
 
 }
