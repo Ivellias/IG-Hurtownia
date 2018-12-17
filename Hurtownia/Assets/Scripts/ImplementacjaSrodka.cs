@@ -15,6 +15,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
 
 	public GameObject oNas;
     public GameObject kontakt;
+    public GameObject logowanie;
 
 
     //tutaj jest lista
@@ -46,7 +47,17 @@ public class ImplementacjaSrodka : MonoBehaviour {
         listaObiektow.Add(prefab);
     }
 
-	public void Kontakt(){
+    public void Logowanie()
+    {
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(logowanie, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+    }
+
+    public void Kontakt(){
         UsunWszystkiePrefaby();
         GameObject prefab = Instantiate(kontakt, gameObject.transform);
         float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
