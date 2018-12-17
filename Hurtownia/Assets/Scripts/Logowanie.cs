@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Logowanie : MonoBehaviour, IOnStart {
@@ -13,7 +14,7 @@ public class Logowanie : MonoBehaviour, IOnStart {
     public float doStartThingsAndReturnHeightOfThisElement()
     {
 
-        return 500f;
+        return 420f;
     }
 
     public void Zaloguj()
@@ -25,6 +26,7 @@ public class Logowanie : MonoBehaviour, IOnStart {
         }
         else
         {
+            SceneManager.LoadScene("ZalogowanyUzytkownik");
             //zalogowanie...
         }
 

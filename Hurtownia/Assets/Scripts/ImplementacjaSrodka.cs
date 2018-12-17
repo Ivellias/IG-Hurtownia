@@ -12,10 +12,12 @@ public class ImplementacjaSrodka : MonoBehaviour {
 	private GameObject faktury;
 	private GameObject opcje;
 
+    public GameObject scrollBar;
 
 	public GameObject oNas;
     public GameObject kontakt;
     public GameObject logowanie;
+    public GameObject wylogowano;
 
 
     //tutaj jest lista
@@ -45,6 +47,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
         UstawWysokosc(wysokosc);
         //DODAJ DO LISTY PREFABOW
         listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
     }
 
     public void Logowanie()
@@ -55,6 +58,18 @@ public class ImplementacjaSrodka : MonoBehaviour {
         UstawWysokosc(wysokosc);
         //DODAJ DO LISTY PREFABOW
         listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+    }
+
+    public void Wylogowano()
+    {
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(wylogowano, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
     }
 
     public void Kontakt(){
@@ -64,6 +79,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
         UstawWysokosc(wysokosc);
         //DODAJ DO LISTY PREFABOW
         listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
     }
 
 	private GameObject UstawPrefab(string tytul, string tekst){
@@ -86,6 +102,20 @@ public class ImplementacjaSrodka : MonoBehaviour {
 	private void UstawWysokosc(float wysokosc){
 		gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, wysokosc);
 	}
+
+    private void SprawdzScroll(float wysokosc)
+    {
+        if (wysokosc <= 425)
+        {
+            scrollBar.GetComponent<Image>().enabled = false;
+            scrollBar.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().enabled = false;
+        }
+        else
+        {
+            scrollBar.GetComponent<Image>().enabled = true;
+            scrollBar.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().enabled = true;
+        }
+    }
 
 	private void UsunWszystkiePrefaby(){
         //xD

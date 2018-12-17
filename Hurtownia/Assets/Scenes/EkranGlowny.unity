@@ -270,7 +270,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -23.400024, y: 24}
+  m_AnchoredPosition: {x: -23.400024, y: 28.9}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &45755502
@@ -1026,7 +1026,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 499, y: -32}
-  m_SizeDelta: {x: 850, y: 720}
+  m_SizeDelta: {x: 850, y: 425}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &939957896
 MonoBehaviour:
@@ -1134,7 +1134,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1034633843}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1303,8 +1303,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1034633845}
   m_HandleRect: {fileID: 1034633844}
   m_Direction: 2
-  m_Value: 0.99999976
-  m_Size: 0.72
+  m_Value: 0.9999999
+  m_Size: 0.425
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1317,7 +1317,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1221705429}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1469,7 +1469,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9919c0062f6406a429e9bebd38c2a94d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1531,7 +1531,7 @@ GameObject:
   - component: {fileID: 1385732226}
   m_Layer: 5
   m_Name: Wnetrze srodka
-  m_TagString: Untagged
+  m_TagString: Srodek
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1566,9 +1566,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   samTekst: {fileID: 1827001780718504, guid: d2eeaf5214f5ae244854bafeba5011b4, type: 2}
+  scrollBar: {fileID: 1221705429}
   oNas: {fileID: 1593229810555644, guid: c4256979fc6b13d4692d8181f5c41fec, type: 2}
   kontakt: {fileID: 1796570838645318, guid: 8a43692c6f670214e87eba3d92a1ae2b, type: 2}
   logowanie: {fileID: 1143386585770790, guid: 358ccaf66f9d01a439f9f46bdddaaf4c, type: 2}
+  wylogowano: {fileID: 1188248715642798, guid: 96b9ec4fd2052b449bab17ebe0277875, type: 2}
 --- !u!222 &1385732227
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1729,7 +1731,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8d4c500c94c517741829dc811f16accd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
