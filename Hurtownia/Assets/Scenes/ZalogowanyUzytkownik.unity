@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 261658863}
   m_Direction: 2
   m_Value: 0.9999999
-  m_Size: 0.425
+  m_Size: 0.5
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1369,7 +1369,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 499, y: -32}
-  m_SizeDelta: {x: 850, y: 425}
+  m_SizeDelta: {x: 850, y: 500}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &812636333
 MonoBehaviour:
@@ -2907,7 +2907,7 @@ MonoBehaviour:
   inputWyszukiwania: {fileID: 638063895}
   wyszukiwanie: {fileID: 1710629407445692, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
-  opcje: {fileID: 1987067482926504, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
+  opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
 --- !u!222 &1941715868
 CanvasRenderer:
   m_ObjectHideFlags: 0

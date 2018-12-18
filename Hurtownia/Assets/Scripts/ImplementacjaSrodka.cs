@@ -130,7 +130,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
 
     private void SprawdzScroll(float wysokosc)
     {
-        if (wysokosc <= 425)
+        if (wysokosc <= 500)
         {
             scrollBar.GetComponent<Image>().enabled = false;
             scrollBar.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().enabled = false;
