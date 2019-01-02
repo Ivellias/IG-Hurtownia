@@ -14,7 +14,6 @@ public class PolaczenieBazy: MonoBehaviour {
 	public PolaczenieBazy(){
         dbConnection = (IDbConnection)new SqliteConnection(path);
 	}
-
 	public Uzytkownik WyszukajUzytkownika(string login, string haslo){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
@@ -30,5 +29,24 @@ public class PolaczenieBazy: MonoBehaviour {
 		}
 		dbConnection.Close();
 		return uzytkownik;
+	}
+
+	public List<Przedmiot> ZwrocWszystkiePrzedmioty(string login, string haslo){
+		dbConnection.Open();
+		IDbCommand dbCommand = dbConnection.CreateCommand();
+		dbCommand.CommandText = "SELECT * FROM Przedmioty;";
+		IDataReader reader = dbCommand.ExecuteReader();
+		Przedmiot przedmiot;
+		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
+		while(reader.Read()){
+			przedmiot = new Przedmiot();
+			przedmiot.ID = reader.GetInt32(0);
+			przedmiot.Nazwa = reader.GetString(1);
+			przedmiot.Cena = reader.GetFloat(2);
+			przedmiot.Ilosc = reader.GetInt32(3);
+			listaPrzedmiotow.Add(przedmiot);
+		}
+		dbConnection.Close();
+		return listaPrzedmiotow;
 	}
 }
