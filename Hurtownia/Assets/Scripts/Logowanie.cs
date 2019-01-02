@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using System.Data;
+using System;
+using Mono.Data.Sqlite;
+
 public class Logowanie : MonoBehaviour, IOnStart {
 
     public GameObject tekstOBledzie;
