@@ -311,7 +311,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 45755503}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1385732226}
+        m_MethodName: Rejestracja
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &45755503
@@ -1506,6 +1517,8 @@ MonoBehaviour:
   wyszukiwanie: {fileID: 1710629407445692, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
   opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
+  rejestracja: {fileID: 1780229025567172, guid: 1ce388246afebd442826a4286e36196d,
+    type: 2}
 --- !u!222 &1385732227
 CanvasRenderer:
   m_ObjectHideFlags: 0

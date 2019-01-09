@@ -13,6 +13,8 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject inputWyszukiwania;
     public GameObject wyszukiwanie;
     public GameObject opcje;
+    public GameObject rejestracja;
+
     //tutaj jest lista
     private List<GameObject> listaObiektow = new List<GameObject>();
 
@@ -22,10 +24,16 @@ public class ImplementacjaSrodka : MonoBehaviour {
     }
 
     public void Zamowienia(){
+
+
+
         GameObject go = GameObject.Find("Uzytkownik");
         Uzytkownik uzytkownik = go.GetComponent<Uzytkownik>();
         inputWyszukiwania.GetComponent<InputField>().text = uzytkownik.Login;
         GUI.TextField(new Rect(10, 10, 200, 20), uzytkownik.Login, 25);
+
+
+
 	}
 
 	public void Faktury(){
@@ -59,6 +67,17 @@ public class ImplementacjaSrodka : MonoBehaviour {
             listaObiektow.Add(prefab);
             SprawdzScroll(wysokosc);
         }
+    }
+
+    public void Rejestracja()
+    {
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(rejestracja, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
     }
 
     public void ONas(){
