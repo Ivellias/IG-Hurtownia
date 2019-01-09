@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class OverSceneHandler {
 
-    static int jakasWartosc;
+    public static string przyklad = "";
 
 }

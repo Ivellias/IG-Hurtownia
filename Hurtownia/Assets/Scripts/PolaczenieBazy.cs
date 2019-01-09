@@ -45,6 +45,7 @@ public class PolaczenieBazy: MonoBehaviour {
 	}
 
 	public List<Przedmiot> ZwrocWszystkiePrzedmiotyPoNazwie(string zawiera){
+        //jak nic nei znajdzie powinno zwrocic null!!
 		return ZwrocListePrzedmiotow("SELECT * FROM Przedmioty WHERE Nazwa LIKE '%" + zawiera + "%';");
 	}
 
