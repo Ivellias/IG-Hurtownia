@@ -12,6 +12,8 @@ public class Logowanie : MonoBehaviour, IOnStart {
     private PolaczenieBazy baza;
     private Uzytkownik uzytkownik;
 
+    private bool zapomniane;
+
     public float doStartThingsAndReturnHeightOfThisElement()
     {
         return 420f;
@@ -23,10 +25,15 @@ public class Logowanie : MonoBehaviour, IOnStart {
         uzytkownik = baza.WyszukajUzytkownika(textFieldUsername.GetComponent<InputField>().text, textFieldPassword.GetComponent<InputField>().text);
 
         if (textFieldUsername.GetComponent<InputField>().text == "" 
-        || textFieldPassword.GetComponent<InputField>().text == "" || uzytkownik.ID == null) { //jesli dane sa bledne
-            tekstOBledzie.GetComponent<Text>().enabled = true;
-            zapomnialem.GetComponent<Button>().enabled = true;
-            zapomnialem.transform.GetChild(0).GetComponent<Text>().enabled = true;
+        || textFieldPassword.GetComponent<InputField>().text == "" || uzytkownik == null) { //jesli dane sa bledne
+            if (!zapomniane) {
+                tekstOBledzie.GetComponent<Text>().enabled = true;
+                zapomnialem.GetComponent<Button>().enabled = true;
+                zapomnialem.transform.GetChild(0).GetComponent<Text>().enabled = true;
+                zapomniane = true;
+            }
+            textFieldUsername.GetComponent<InputField>().text = "";
+            textFieldPassword.GetComponent<InputField>().text = "";
         }
         else
         {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Faktura {
+public static class OverSceneHandler {
+
+    static int jakasWartosc;
 
 }

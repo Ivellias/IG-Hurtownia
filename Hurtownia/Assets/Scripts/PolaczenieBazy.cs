@@ -17,9 +17,11 @@ public class PolaczenieBazy: MonoBehaviour {
 	public Uzytkownik WyszukajUzytkownika(string login, string haslo){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
+        Debug.Log(login + " " + haslo);
 		dbCommand.CommandText = "SELECT * FROM Uzytkownicy WHERE (Login='" + login + "' AND Haslo='" + haslo + "');";
 		IDataReader reader = dbCommand.ExecuteReader();
 		Uzytkownik uzytkownik = new Uzytkownik();
+        uzytkownik.ID = -1;
 		while(reader.Read()){
 			uzytkownik.ID = reader.GetInt32(0);
 			uzytkownik.Login = reader.GetString(1);
@@ -27,9 +29,15 @@ public class PolaczenieBazy: MonoBehaviour {
 			uzytkownik.Imie = reader.GetString(3);
 			uzytkownik.Nazwisko = reader.GetString(4);
 		}
-		PrzypiszListeZamowienDoUzytkownika(uzytkownik);
-		dbConnection.Close();
-		return uzytkownik;
+        if (uzytkownik.ID == -1) return null;
+        //PrzypiszListeZamowienDoUzytkownika(uzytkownik);
+        dbConnection.Close();
+        Debug.Log("id:"+uzytkownik.ID);
+        Debug.Log("login:" + uzytkownik.Login);
+        Debug.Log("haslo:" + uzytkownik.Haslo);
+        Debug.Log("imie:" + uzytkownik.Imie);
+        Debug.Log("nazwisko:" + uzytkownik.Nazwisko);
+        return uzytkownik;
 	}
 
 	public List<Przedmiot> ZwrocWszystkiePrzedmioty(){

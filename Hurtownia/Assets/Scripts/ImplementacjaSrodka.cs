@@ -23,7 +23,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
 
     public void Zamowienia(){
         GameObject go = GameObject.Find("Uzytkownik");
-        Uzytkownik uzytkownik = go.GetComponent<Uzytkownik> ();
+        Uzytkownik uzytkownik = go.GetComponent<Uzytkownik>();
         inputWyszukiwania.GetComponent<InputField>().text = uzytkownik.Login;
         GUI.TextField(new Rect(10, 10, 200, 20), uzytkownik.Login, 25);
 	}
