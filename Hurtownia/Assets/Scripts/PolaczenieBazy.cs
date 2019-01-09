@@ -40,8 +40,21 @@ public class PolaczenieBazy: MonoBehaviour {
 		return ZwrocListePrzedmiotow("SELECT * FROM Przedmioty WHERE Nazwa LIKE '%" + zawiera + "%';");
 	}
 
-	public void ZaktualizujHaslo(Uzytkownik uzytkownik){
+	public void ZmienHaslo(Uzytkownik uzytkownik, string noweHaslo){
+		dbConnection.Open();
+		IDbCommand dbCommand = dbConnection.CreateCommand();
+		dbCommand.CommandText = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (Login='" + uzytkownik.Login + "' AND id='" + uzytkownik.ID + "');";
+		IDataReader reader = dbCommand.ExecuteReader();
+		uzytkownik.Haslo = noweHaslo;
+		dbConnection.Close();
+	}
 
+	public void DodajNowegoUzytkownika(Uzytkownik uzytkownik){
+		dbConnection.Open();
+		IDbCommand dbCommand = dbConnection.CreateCommand();
+		//dbCommand.CommandText = "INSERT INTO Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (Login='" + uzytkownik.Login + "' AND id='" + uzytkownik.ID + "');";
+		IDataReader reader = dbCommand.ExecuteReader();
+		dbConnection.Close();
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
