@@ -27,14 +27,27 @@ public class PolaczenieBazy: MonoBehaviour {
 			uzytkownik.Imie = reader.GetString(3);
 			uzytkownik.Nazwisko = reader.GetString(4);
 		}
+		PrzypiszListeZamowienDoUzytkownika(uzytkownik);
 		dbConnection.Close();
 		return uzytkownik;
 	}
 
-	public List<Przedmiot> ZwrocWszystkiePrzedmioty(string login, string haslo){
+	public List<Przedmiot> ZwrocWszystkiePrzedmioty(){
+		return ZwrocListePrzedmiotow("SELECT * FROM Przedmioty;");
+	}
+
+	public List<Przedmiot> ZwrocWszystkiePrzedmiotyPoNazwie(string zawiera){
+		return ZwrocListePrzedmiotow("SELECT * FROM Przedmioty WHERE Nazwa LIKE '%" + zawiera + "%';");
+	}
+
+	public void ZaktualizujHaslo(Uzytkownik uzytkownik){
+
+	}
+
+	private List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "SELECT * FROM Przedmioty;";
+		dbCommand.CommandText = komenda;
 		IDataReader reader = dbCommand.ExecuteReader();
 		Przedmiot przedmiot;
 		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
@@ -43,10 +56,20 @@ public class PolaczenieBazy: MonoBehaviour {
 			przedmiot.ID = reader.GetInt32(0);
 			przedmiot.Nazwa = reader.GetString(1);
 			przedmiot.Cena = reader.GetFloat(2);
-			przedmiot.Ilosc = reader.GetInt32(3);
+			przedmiot.CalkowitaIlosc = reader.GetInt32(3);
 			listaPrzedmiotow.Add(przedmiot);
 		}
 		dbConnection.Close();
 		return listaPrzedmiotow;
+	}
+
+	private void PrzypiszListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
+		IDbCommand dbCommand = dbConnection.CreateCommand();
+		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE;";
+		IDataReader reader = dbCommand.ExecuteReader();
+		List<Zamowienie> ListaZamowien = new List<Zamowienie>();
+		while(reader.Read()){
+		}
+		uzytkownik.ListaZamowien = ListaZamowien;
 	}
 }
