@@ -4,4 +4,5 @@
 	public float Cena {get; set;}
 	public int CalkowitaIlosc {get; set;}
 	public string Opis {get; set;}
+    public int TymczasowaIlosc { get; set; }
 }

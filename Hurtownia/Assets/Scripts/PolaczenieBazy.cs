@@ -46,8 +46,10 @@ public class PolaczenieBazy: MonoBehaviour {
 
 	public List<Przedmiot> ZwrocWszystkiePrzedmiotyPoNazwie(string zawiera){
         //jak nic nei znajdzie powinno zwrocic null!!
-		return ZwrocListePrzedmiotow("SELECT * FROM Przedmioty WHERE Nazwa LIKE '%" + zawiera + "%';");
-	}
+        List<Przedmiot>  tmp = ZwrocListePrzedmiotow("SELECT * FROM Przedmioty WHERE (Nazwa LIKE '%" + zawiera + "%');");
+        if (tmp.Count == 0) return null;
+        else return tmp;
+    }
 
 	public void ZmienHaslo(Uzytkownik uzytkownik, string noweHaslo){
 		dbConnection.Open();
@@ -70,16 +72,19 @@ public class PolaczenieBazy: MonoBehaviour {
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = komenda;
+        Debug.Log(komenda);
 		IDataReader reader = dbCommand.ExecuteReader();
-		Przedmiot przedmiot;
 		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
 		while(reader.Read()){
-			przedmiot = new Przedmiot();
-			przedmiot.ID = reader.GetInt32(0);
-			przedmiot.Nazwa = reader.GetString(1);
-			przedmiot.Cena = reader.GetFloat(2);
-			przedmiot.CalkowitaIlosc = reader.GetInt32(3);
-			listaPrzedmiotow.Add(przedmiot);
+            Przedmiot przedmiot = new Przedmiot
+            {
+                ID = reader.GetInt32(0),
+                Nazwa = reader.GetString(1),
+                Cena = reader.GetFloat(2),
+                CalkowitaIlosc = reader.GetInt32(3),
+                Opis = reader.GetString(4)
+            };
+            listaPrzedmiotow.Add(przedmiot);
 		}
 		dbConnection.Close();
 		return listaPrzedmiotow;

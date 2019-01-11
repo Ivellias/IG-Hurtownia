@@ -2177,9 +2177,10 @@ GameObject:
   - component: {fileID: 1412428884}
   - component: {fileID: 1412428883}
   - component: {fileID: 1412428882}
+  - component: {fileID: 1412428885}
   m_Layer: 5
   m_Name: Koszyk
-  m_TagString: Untagged
+  m_TagString: Koszyk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2277,6 +2278,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1412428880}
   m_CullTransparentMesh: 0
+--- !u!95 &1412428885
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1412428880}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 240b1806c4d4278498064dfb1f98aaf5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1437587222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2917,7 +2936,7 @@ MonoBehaviour:
   logowanie: {fileID: 1143386585770790, guid: 358ccaf66f9d01a439f9f46bdddaaf4c, type: 2}
   wylogowano: {fileID: 1188248715642798, guid: 96b9ec4fd2052b449bab17ebe0277875, type: 2}
   inputWyszukiwania: {fileID: 638063895}
-  wyszukiwanie: {fileID: 1361618006350228, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
+  wyszukiwanie: {fileID: 1258407364895002, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
   opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
   rejestracja: {fileID: 0}

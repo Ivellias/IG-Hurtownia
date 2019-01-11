@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Srodek
   - OverSceneHandler
+  - Koszyk
   layers:
   - Default
   - TransparentFX

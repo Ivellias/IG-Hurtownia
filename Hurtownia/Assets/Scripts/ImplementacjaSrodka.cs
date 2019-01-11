@@ -68,11 +68,12 @@ public class ImplementacjaSrodka : MonoBehaviour {
         {
             UsunWszystkiePrefaby();
             GameObject prefab = Instantiate(wyszukiwanie, gameObject.transform);
-            float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
-
             //tu mina do refaktoryzacji
             prefab.GetComponent<Wyszukiwanie>().ustawCoWyszukac(inputWyszukiwania.GetComponent<InputField>().text);
             inputWyszukiwania.GetComponent<InputField>().text = "";
+            float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+
+            
 
             UstawWysokosc(wysokosc);
             //DODAJ DO LISTY PREFABOW

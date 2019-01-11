@@ -23,19 +23,21 @@ public class Wyszukiwanie : MonoBehaviour, IOnStart {
         else
         {
             transform.GetChild(1).gameObject.GetComponent<Text>().text = "Wyszukano: " + doWyszukania;
-            for(int i = 0; i < przedmioty.Count; i++)
+            Debug.Log("count: "+przedmioty.Count);
+            int i= 0;
+            foreach(Przedmiot przedmiot in przedmioty)
             {
                 GameObject tmp = Instantiate(prefabPrzedmiotu, gameObject.transform.GetChild(0).transform);
 
-                //ustawienie wartosci dla danych przedmiotow
+                tmp.GetComponent<ObiektWyszukaj>().UstawPrzedmiot(przedmiot);
 
-
-                tmp.GetComponent<RectTransform>().position = new Vector3(62f, (-356 - i * (220)), 0f);
+                tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(62f, -356 - (i * 220f));
+                i++;
             }
         }
 
         float wysokosc = 100f;
-        wysokosc += (przedmioty.Count+1) * 220f; 
+        if(przedmioty != null) wysokosc += (przedmioty.Count) * 220f;
         return wysokosc;
     }
 
