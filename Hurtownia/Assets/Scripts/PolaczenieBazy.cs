@@ -26,8 +26,14 @@ public class PolaczenieBazy: MonoBehaviour {
 			uzytkownik.ID = reader.GetInt32(0);
 			uzytkownik.Login = reader.GetString(1);
 			uzytkownik.Haslo = reader.GetString(2);
-			uzytkownik.Imie = reader.GetString(3);
-			uzytkownik.Nazwisko = reader.GetString(4);
+			uzytkownik.NazwaFirmy = reader.GetString(3);
+			uzytkownik.Adres = reader.GetString(4);
+			uzytkownik.Imie = reader.GetString(5);
+			uzytkownik.Nazwisko = reader.GetString(6);
+			uzytkownik.Mail = reader.GetString(7);
+			uzytkownik.NIP = reader.GetInt32(8);
+			uzytkownik.REGON = reader.GetInt32(9);
+			uzytkownik.KRS = reader.GetInt32(10);
 		}
         if (uzytkownik.ID == -1) return null;
         //PrzypiszListeZamowienDoUzytkownika(uzytkownik);
@@ -65,12 +71,14 @@ public class PolaczenieBazy: MonoBehaviour {
 		try{
 			dbConnection.Open();
 			IDbCommand dbCommand = dbConnection.CreateCommand();
-			//dbCommand.CommandText = "INSERT INTO Uzytkownicy (Login, Haslo, NazwaFirmy, Adres, Imie, Nazwisko, Mail, NIP, REGON, KRS) VALUES ('admin', 'admin', 'Administracja', 'Administracyjna', 'Ad', 'min', 'admin@gmail.com', '123456789', '123456789', '123456789');";
+			dbCommand.CommandText = "INSERT INTO Uzytkownicy (Login, Haslo, NazwaFirmy, Adres, Imie, Nazwisko, Mail, NIP, REGON, KRS) VALUES" +  
+				"('" + uzytkownik.Login + "', '" + uzytkownik.Haslo +"', '" + uzytkownik.NazwaFirmy +"', '" + uzytkownik.Adres + "'," +
+				"'"+ uzytkownik.Imie + "', '"+ uzytkownik.Nazwisko +"', '"+ uzytkownik.Mail +"', '"+ uzytkownik.NIP +"', '"+ uzytkownik.REGON +"', '"+ uzytkownik.KRS + "');";
 			IDataReader reader = dbCommand.ExecuteReader();
 			dbConnection.Close();
 		}
 		catch(SqliteException){
-			return "Dane nie sa poprawne!";
+			return "Login, NIP, REGON lub KRS nie sa poprawne!";
 		}
 		return "Uzytkownik pomyslnie dodany";
 	}
@@ -99,10 +107,11 @@ public class PolaczenieBazy: MonoBehaviour {
 
 	private void PrzypiszListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
 		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE;";
+		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE UzytkownikID = " + uzytkownik.ID + ";";
 		IDataReader reader = dbCommand.ExecuteReader();
 		List<Zamowienie> ListaZamowien = new List<Zamowienie>();
 		while(reader.Read()){
+
 		}
 		uzytkownik.ListaZamowien = ListaZamowien;
 	}
