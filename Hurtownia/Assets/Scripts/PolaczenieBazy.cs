@@ -11,9 +11,11 @@ using Mono.Data.Sqlite;
 public class PolaczenieBazy: MonoBehaviour {
 	private readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
 	private IDbConnection dbConnection;
+
 	public PolaczenieBazy(){
         dbConnection = (IDbConnection)new SqliteConnection(path);
 	}
+
 	public Uzytkownik WyszukajUzytkownika(string login, string haslo){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
@@ -106,9 +108,9 @@ public class PolaczenieBazy: MonoBehaviour {
 	}
 
 	public List<Zamowienie> ZwrocListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
-		IDbCommand dbCommand = dbConnection.CreateCommand();
+        IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE (ID_Uzytkownika = '" + uzytkownik.ID + "');";
-		IDataReader reader = dbCommand.ExecuteReader();
+        IDataReader reader = dbCommand.ExecuteReader();
 		List<Zamowienie> listaZamowien = new List<Zamowienie>();
 		while(reader.Read()){
 			Zamowienie noweZamowienie = new Zamowienie(){
@@ -122,11 +124,11 @@ public class PolaczenieBazy: MonoBehaviour {
 			};
 			listaZamowien.Add(noweZamowienie);
 		}
-		return listaZamowien;
+        return listaZamowien;
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
-		IDbCommand dbCommand = dbConnection.CreateCommand();
+        IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "SELECT * FROM PrzedmiotyZamowienia WHERE (ID_Zamowienia = '" + idZamowienia + "');";
 		IDataReader reader = dbCommand.ExecuteReader();
 		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
@@ -146,8 +148,7 @@ public class PolaczenieBazy: MonoBehaviour {
             	listaPrzedmiotow.Add(przedmiot);
 			}
 		}
-
-		return listaPrzedmiotow;
+        return listaPrzedmiotow;
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotow(string komenda){

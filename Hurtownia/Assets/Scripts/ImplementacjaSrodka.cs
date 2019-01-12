@@ -16,6 +16,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject rejestracja;
     public GameObject zarzadzanieTowarem;
     public GameObject koszyk;
+    public GameObject zamowieniaUzytkownika;
 
     //tutaj jest lista
     private List<GameObject> listaObiektow = new List<GameObject>();
@@ -25,18 +26,31 @@ public class ImplementacjaSrodka : MonoBehaviour {
         listaObiektow = new List<GameObject>();
     }
 
-    public void Zamowienia(){
+    public void ZamowieniaUzytkownika(){
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(zamowieniaUzytkownika, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
 
-        GameObject go = GameObject.Find("Uzytkownik");
-        Uzytkownik uzytkownik = go.GetComponent<Uzytkownik>();
-        inputWyszukiwania.GetComponent<InputField>().text = uzytkownik.Login;
-        GUI.TextField(new Rect(10, 10, 200, 20), uzytkownik.Login, 25);
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+    }
+
+    public void ZamowieniaPracownika()
+    {
+
+    }
+
+	public void FakturyUzytkownika()
+    {
 
 	}
 
-	public void Faktury(){
+    public void FakturyAdministratora()
+    {
 
-	}
+    }
 
     public void Koszyk()
     {
@@ -80,9 +94,6 @@ public class ImplementacjaSrodka : MonoBehaviour {
             prefab.GetComponent<Wyszukiwanie>().ustawCoWyszukac(inputWyszukiwania.GetComponent<InputField>().text);
             inputWyszukiwania.GetComponent<InputField>().text = "";
             float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
-
-            
-
             UstawWysokosc(wysokosc);
             //DODAJ DO LISTY PREFABOW
             listaObiektow.Add(prefab);

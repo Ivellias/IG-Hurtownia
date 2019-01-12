@@ -13,6 +13,18 @@ public class Koszyk : MonoBehaviour, IOnStart
     public void Zamow()
     {
         //DOPIERO JAK BEDA ZAMOWIENIA
+        Zamowienie zamowienie = new Zamowienie();
+        zamowienie.CalkowitaKwotaZakupu = OverSceneHandler.ObliczLacznaCene();
+        zamowienie.ListaPrzedmiotow = OverSceneHandler.koszyk;
+        zamowienie.IdUzytkownika = OverSceneHandler.aktualnieZalogowanyUzytkownik.ID;
+        zamowienie.IloscZakupionychPrzedmiotow = OverSceneHandler.koszyk.Count;
+        OverSceneHandler.koszyk = new List<Przedmiot>();
+        zamowienie.DataZakupu = System.DateTime.Now.ToString("M/d/yyyy");
+
+        PolaczenieBazy baza = new PolaczenieBazy();
+        baza.DodajNoweZamowienie(zamowienie);
+        RysujKoszyk();
+
     }
 
     public void UsunPrzedmiot(int id)
