@@ -34,6 +34,7 @@ public class PolaczenieBazy: MonoBehaviour {
 			uzytkownik.NIP = reader.GetInt32(8);
 			uzytkownik.REGON = reader.GetInt32(9);
 			uzytkownik.KRS = reader.GetInt32(10);
+			uzytkownik.PoziomDostepu = reader.GetInt32(11);
 		}
         if (uzytkownik.ID == -1) return null;
         //PrzypiszListeZamowienDoUzytkownika(uzytkownik);
@@ -71,9 +72,10 @@ public class PolaczenieBazy: MonoBehaviour {
 		try{
 			dbConnection.Open();
 			IDbCommand dbCommand = dbConnection.CreateCommand();
-			dbCommand.CommandText = "INSERT INTO Uzytkownicy (Login, Haslo, NazwaFirmy, Adres, Imie, Nazwisko, Mail, NIP, REGON, KRS) VALUES" +  
+			dbCommand.CommandText = "INSERT INTO Uzytkownicy (Login, Haslo, NazwaFirmy, Adres, Imie, Nazwisko, Mail, NIP, REGON, KRS, PoziomDostepu) VALUES" +  
 				"('" + uzytkownik.Login + "', '" + uzytkownik.Haslo +"', '" + uzytkownik.NazwaFirmy +"', '" + uzytkownik.Adres + "'," +
-				"'"+ uzytkownik.Imie + "', '"+ uzytkownik.Nazwisko +"', '"+ uzytkownik.Mail +"', '"+ uzytkownik.NIP +"', '"+ uzytkownik.REGON +"', '"+ uzytkownik.KRS + "');";
+				"'"+ uzytkownik.Imie + "', '"+ uzytkownik.Nazwisko +"', '"+ uzytkownik.Mail +"', '"+ uzytkownik.NIP +"', '"+ uzytkownik.REGON +"', '"
+				+ uzytkownik.KRS + "', '" + 0 + "');";
 			IDataReader reader = dbCommand.ExecuteReader();
 			dbConnection.Close();
 		}
