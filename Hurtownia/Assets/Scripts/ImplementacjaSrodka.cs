@@ -15,6 +15,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject opcje;
     public GameObject rejestracja;
     public GameObject zarzadzanieTowarem;
+    public GameObject koszyk;
 
     //tutaj jest lista
     private List<GameObject> listaObiektow = new List<GameObject>();
@@ -26,20 +27,27 @@ public class ImplementacjaSrodka : MonoBehaviour {
 
     public void Zamowienia(){
 
-
-
         GameObject go = GameObject.Find("Uzytkownik");
         Uzytkownik uzytkownik = go.GetComponent<Uzytkownik>();
         inputWyszukiwania.GetComponent<InputField>().text = uzytkownik.Login;
         GUI.TextField(new Rect(10, 10, 200, 20), uzytkownik.Login, 25);
-
-
 
 	}
 
 	public void Faktury(){
 
 	}
+
+    public void Koszyk()
+    {
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(koszyk, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+    }
 
     public void ZarzadzanieTowarem()
     {

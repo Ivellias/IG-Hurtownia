@@ -23,7 +23,7 @@ public class ObiektWyszukaj : MonoBehaviour {
             trzymany.TymczasowaIlosc = ilosc;
             //nie sprawdza czy juz taki jest w koszyku
 
-            OverSceneHandler.koszyk.Add(trzymany);
+            OverSceneHandler.DodajDoKoszyka(trzymany);
             GameObject.FindGameObjectWithTag("Koszyk").GetComponent<Animator>().Play("koszykShake");
         }
 

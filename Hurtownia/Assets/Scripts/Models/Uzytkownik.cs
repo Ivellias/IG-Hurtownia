@@ -8,6 +8,9 @@ public class Uzytkownik{
 	public int NIP {get; set;}
 	public int REGON {get; set;}
 	public int KRS {get; set;}
-	public List<Zamowienie> ListaZamowien {get; set;}
+    public string Mail { get; set; }
+    public string Adres { get; set; }
+    public string NazwaFirmy  { get; set; }
+    public List<Zamowienie> ListaZamowien {get; set;}
 	public List<Faktura> ListaFaktur {get; set;}
 }
