@@ -41,11 +41,12 @@ public class PolaczenieBazy: MonoBehaviour {
 	}
 
 	public List<Przedmiot> ZwrocWszystkiePrzedmioty(){
-		return ZwrocListePrzedmiotow("SELECT * FROM Przedmioty;");
+		List<Przedmiot> ListaPrzedmiotow = ZwrocListePrzedmiotow("SELECT * FROM Przedmioty;");
+		if (ListaPrzedmiotow.Count == 0) return null;
+        else return ListaPrzedmiotow;
 	}
 
 	public List<Przedmiot> ZwrocWszystkiePrzedmiotyPoNazwie(string zawiera){
-        //jak nic nei znajdzie powinno zwrocic null!!
         List<Przedmiot>  tmp = ZwrocListePrzedmiotow("SELECT * FROM Przedmioty WHERE (Nazwa LIKE '%" + zawiera + "%');");
         if (tmp.Count == 0) return null;
         else return tmp;
@@ -60,12 +61,18 @@ public class PolaczenieBazy: MonoBehaviour {
 		dbConnection.Close();
 	}
 
-	public void DodajNowegoUzytkownika(Uzytkownik uzytkownik){
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		//dbCommand.CommandText = "INSERT INTO Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (Login='" + uzytkownik.Login + "' AND id='" + uzytkownik.ID + "');";
-		IDataReader reader = dbCommand.ExecuteReader();
-		dbConnection.Close();
+	public String DodajNowegoUzytkownika(Uzytkownik uzytkownik){
+		try{
+			dbConnection.Open();
+			IDbCommand dbCommand = dbConnection.CreateCommand();
+			//dbCommand.CommandText = "INSERT INTO Uzytkownicy (Login, Haslo, NazwaFirmy, Adres, Imie, Nazwisko, Mail, NIP, REGON, KRS) VALUES ('admin', 'admin', 'Administracja', 'Administracyjna', 'Ad', 'min', 'admin@gmail.com', '123456789', '123456789', '123456789');";
+			IDataReader reader = dbCommand.ExecuteReader();
+			dbConnection.Close();
+		}
+		catch(SqliteException){
+			return "Dane nie sa poprawne!";
+		}
+		return "Uzytkownik pomyslnie dodany";
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
