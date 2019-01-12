@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using System;
+
 public class Rejestracja : MonoBehaviour, IOnStart {
 
     private InputField nazwaUzytkownika;
@@ -22,19 +24,49 @@ public class Rejestracja : MonoBehaviour, IOnStart {
 
     public void Zarejestruj()
     {
-        // nazwaUzytkownika.text;      // to jest co jest aktualnei w srodku
+        Uzytkownik nowyUzytkownik = new Uzytkownik();
+        nowyUzytkownik.Login = nazwaUzytkownika.text;
+        nowyUzytkownik.NazwaFirmy = nazwaFirmy.text;
+        nowyUzytkownik.Adres = adres.text;
 
+        int val = 0;
+        if(Int32.TryParse(nip.text, out val)){
+            nowyUzytkownik.NIP = Int32.Parse(nip.text);
+        }
+        else{
+            //dodac tekst o zlym formacie czy cos
+        }
 
-        //wykasowanie wszystkiego DODAC WARUNEK ZE TYLKO JAK SIE POWIEDZIE REJESTRACJA
-        nazwaUzytkownika.text = "";
-        nazwaFirmy.text = "";
-        adres.text = "";
-        nip.text = "";
-        regon.text = "";
-        krs.text = "";
-        email.text = "";
-        haslo.text = "";
-        powtorzHaslo.text = "";
+        if(Int32.TryParse(regon.text, out val)){
+            nowyUzytkownik.REGON = Int32.Parse(regon.text);
+        }
+        else{
+            //dodac tekst o zlym formacie czy cos
+        }
+
+        if(!krs.text.Equals(null)){
+            if(Int32.TryParse(krs.text, out val)){
+                nowyUzytkownik.KRS = Int32.Parse(krs.text);
+            }
+            else{
+                //dodac tekst o zlym formacie czy cos
+            }
+        }
+
+        if(!email.text.Equals(null)){
+            nowyUzytkownik.Mail = email.text;
+        }
+
+        if(haslo.text.Equals(powtorzHaslo.text)){
+            nowyUzytkownik.Haslo = haslo.text;
+        }
+        else{
+            //dodac tekst o zlym formacie czy cos
+        }
+
+        PolaczenieBazy polaczenieBazy = new PolaczenieBazy();
+        string wiadomoscZwrotna = polaczenieBazy.DodajNowegoUzytkownika(nowyUzytkownik);
+        email.text = wiadomoscZwrotna;
 
     }
 
