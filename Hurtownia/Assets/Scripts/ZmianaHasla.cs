@@ -11,9 +11,18 @@ public class ZmianaHasla : MonoBehaviour {
 
     public void Zmien()
     {
-        nowe.GetComponent<InputField>().text = "";
-        powtorz.GetComponent<InputField>().text = "";
-        dotychczasowe.GetComponent<InputField>().text = "";
+        PolaczenieBazy polaczenieBazy = new PolaczenieBazy();
+        if(dotychczasowe.GetComponent<InputField>().text.Equals(OverSceneHandler.aktualnieZalogowanyUzytkownik.Haslo)){
+            if(nowe.GetComponent<InputField>().text.Equals(powtorz.GetComponent<InputField>().text)){
+                polaczenieBazy.ZmienHaslo(OverSceneHandler.aktualnieZalogowanyUzytkownik, nowe.GetComponent<InputField>().text);
+            }
+            else{
+                //hasla nie pokrywaja sie
+            }
+        }
+        else{
+            //haslo nie jest identyczne z obecnym
+        }
     }
 
 

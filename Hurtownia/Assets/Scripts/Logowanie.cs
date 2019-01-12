@@ -37,6 +37,7 @@ public class Logowanie : MonoBehaviour, IOnStart {
         }
         else
         {
+            OverSceneHandler.aktualnieZalogowanyUzytkownik = uzytkownik;
             SceneManager.LoadScene("ZalogowanyUzytkownik");
             //zalogowanie...
         }

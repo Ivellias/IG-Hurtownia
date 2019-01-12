@@ -10,6 +10,7 @@ public class Logout : MonoBehaviour {
         SceneManager.LoadScene("EkranGlowny");
         //GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().Wylogowano();
         //zrobic zeby byl na zaladowanej scenie komunikat
+        OverSceneHandler.aktualnieZalogowanyUzytkownik = null;
     }
 
 }

@@ -6,6 +6,8 @@ public static class OverSceneHandler {
 
     public static string przyklad = "";
 
+    public static Uzytkownik aktualnieZalogowanyUzytkownik;
+
 
 
     //Koszyk
