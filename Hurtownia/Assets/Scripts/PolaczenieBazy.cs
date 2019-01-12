@@ -37,8 +37,8 @@ public class PolaczenieBazy: MonoBehaviour {
 			uzytkownik.PoziomDostepu = reader.GetInt32(11);
 		}
         if (uzytkownik.ID == -1) return null;
-        //PrzypiszListeZamowienDoUzytkownika(uzytkownik);
-        dbConnection.Close();
+		PrzypiszListeZamowienDoUzytkownika(uzytkownik);
+		dbConnection.Close();
         Debug.Log("id:"+uzytkownik.ID);
         Debug.Log("login:" + uzytkownik.Login);
         Debug.Log("haslo:" + uzytkownik.Haslo);
@@ -85,6 +85,18 @@ public class PolaczenieBazy: MonoBehaviour {
 		return "Uzytkownik pomyslnie dodany";
 	}
 
+	public void DodajNoweZamowienie(List<Zamowienie> listaZamowien){
+		dbConnection.Open();
+		foreach(Zamowienie zamowienie in listaZamowien){
+			IDbCommand dbCommand = dbConnection.CreateCommand();
+			dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Przedmiotu, ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu) " +
+				"VALUES ('" + zamowienie.ZamowionyPrzedmiot.ID + "', '"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" +
+				zamowienie.IloscZakupionychPrzedmiotow + "', '"+ zamowienie.CalkowitaKwotaZakupu +"');";
+			IDataReader reader = dbCommand.ExecuteReader();
+		}
+		dbConnection.Close();
+	}
+
 	private List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
@@ -108,13 +120,27 @@ public class PolaczenieBazy: MonoBehaviour {
 	}
 
 	private void PrzypiszListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
+		dbConnection.Close();
+		List<Przedmiot> calkowitaListaPrzedmiotow = ZwrocWszystkiePrzedmioty();
+		dbConnection.Open();
+		
 		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE UzytkownikID = " + uzytkownik.ID + ";";
+		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE (ID_Uzytkownika = '" + uzytkownik.ID + "');";
 		IDataReader reader = dbCommand.ExecuteReader();
-		List<Zamowienie> ListaZamowien = new List<Zamowienie>();
+		List<Zamowienie> listaZamowien = new List<Zamowienie>();
 		while(reader.Read()){
-
+			Zamowienie noweZamowienie = new Zamowienie(){
+				ID = reader.GetInt32(0),
+				ZamowionyPrzedmiot = calkowitaListaPrzedmiotow[reader.GetInt32(1) - 1],
+				IdUzytkownika = reader.GetInt32(2),
+				DataZakupu = reader.GetString(3),
+				IloscZakupionychPrzedmiotow = reader.GetInt32(4),
+				CalkowitaKwotaZakupu = reader.GetFloat(5),
+			};
+			listaZamowien.Add(noweZamowienie);
 		}
-		uzytkownik.ListaZamowien = ListaZamowien;
+		if(listaZamowien.Count > 0)
+			uzytkownik.ListaZamowien = listaZamowien;
 	}
+
 }

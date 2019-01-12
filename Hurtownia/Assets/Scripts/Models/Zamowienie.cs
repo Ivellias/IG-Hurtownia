@@ -1,8 +1,9 @@
 ﻿using System;
 public class Zamowienie {
-	public Przedmiot KupionyPrzedmiot {get; set;}
+	public int ID {get; set;}
+	public Przedmiot ZamowionyPrzedmiot {get; set;}
 	public int IdUzytkownika {get; set;}
-	public DateTime DataZakupu {get; set;}
+	public string DataZakupu {get; set;}
 	public int IloscZakupionychPrzedmiotow {get; set;}
 	public float CalkowitaKwotaZakupu {get; set;}
 }
