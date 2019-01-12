@@ -1,7 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 public class Zamowienie {
 	public int ID {get; set;}
-	public Przedmiot ZamowionyPrzedmiot {get; set;}
+	public List<Przedmiot> ListaPrzedmiotow {get; set;}
 	public int IdUzytkownika {get; set;}
 	public string DataZakupu {get; set;}
 	public int IloscZakupionychPrzedmiotow {get; set;}
