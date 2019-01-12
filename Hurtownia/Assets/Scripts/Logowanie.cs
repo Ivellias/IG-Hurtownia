@@ -12,6 +12,8 @@ public class Logowanie : MonoBehaviour, IOnStart {
     private PolaczenieBazy baza;
     private Uzytkownik uzytkownik;
 
+    private Text info;
+
     private bool zapomniane;
 
     public float doStartThingsAndReturnHeightOfThisElement()
@@ -32,6 +34,7 @@ public class Logowanie : MonoBehaviour, IOnStart {
                 zapomnialem.transform.GetChild(0).GetComponent<Text>().enabled = true;
                 zapomniane = true;
             }
+            tekstOBledzie.GetComponent<Text>().text = "Wpisano błędną nazwę użytkownika lub hasło!";
             textFieldUsername.GetComponent<InputField>().text = "";
             textFieldPassword.GetComponent<InputField>().text = "";
         }
@@ -41,7 +44,16 @@ public class Logowanie : MonoBehaviour, IOnStart {
 
             if (OverSceneHandler.aktualnieZalogowanyUzytkownik.PoziomDostepu == 0)
             {
-                //INFO ZE NEI JEST JESZCZE ZATWIERDZONE
+                if (!zapomniane)
+                {
+                    tekstOBledzie.GetComponent<Text>().enabled = true;
+                    zapomnialem.GetComponent<Button>().enabled = true;
+                    zapomnialem.transform.GetChild(0).GetComponent<Text>().enabled = true;
+                    zapomniane = true;
+                }
+                tekstOBledzie.GetComponent<Text>().text = "Twoje konto nie zostało jeszcze zatwierdzone.";
+                textFieldUsername.GetComponent<InputField>().text = "";
+                textFieldPassword.GetComponent<InputField>().text = "";
             }
                 else if (OverSceneHandler.aktualnieZalogowanyUzytkownik.PoziomDostepu == 1)
             {

@@ -17,6 +17,8 @@ public class Rejestracja : MonoBehaviour, IOnStart {
     private InputField haslo;
     private InputField powtorzHaslo;
 
+    private Text info;
+
     float IOnStart.doStartThingsAndReturnHeightOfThisElement()
     {
         return 400f;
@@ -66,11 +68,12 @@ public class Rejestracja : MonoBehaviour, IOnStart {
 
         PolaczenieBazy polaczenieBazy = new PolaczenieBazy();
         string wiadomoscZwrotna = polaczenieBazy.DodajNowegoUzytkownika(nowyUzytkownik);
-        email.text = wiadomoscZwrotna;
+        info.text = wiadomoscZwrotna;
 
     }
 
 	void Start () {
+        info = transform.GetChild(4).gameObject.GetComponent<Text>();
         nazwaUzytkownika = gameObject.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<InputField>();
         nazwaFirmy = gameObject.transform.GetChild(0).transform.GetChild(1).gameObject.GetComponent<InputField>();
         adres = gameObject.transform.GetChild(0).transform.GetChild(2).gameObject.GetComponent<InputField>();

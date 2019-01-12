@@ -7,7 +7,7 @@ public class NadajNazwe : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GetComponent<Text>().text = OverSceneHandler.aktualnieZalogowanyUzytkownik.Imie + " " + OverSceneHandler.aktualnieZalogowanyUzytkownik.Nazwisko;
+        GetComponent<Text>().text = OverSceneHandler.aktualnieZalogowanyUzytkownik.Login;
 	}
 	
 }
