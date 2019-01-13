@@ -6,5 +6,5 @@ public class Zamowienie {
 	public string DataZakupu {get; set;}
 	public int IloscZakupionychPrzedmiotow {get; set;}
 	public float CalkowitaKwotaZakupu {get; set;}
-	public string PostepZamowienia {get; set;}
+	public int PostepZamowienia {get; set;}
 }

@@ -94,7 +94,7 @@ public class PolaczenieBazy: MonoBehaviour {
 			IDbCommand dbCommand = dbConnection.CreateCommand();
 			dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu, PostepZamowienia) " +
 			"VALUES ('"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" + zamowienie.IloscZakupionychPrzedmiotow + 
-			"', '"+ zamowienie.CalkowitaKwotaZakupu +"', 'Rozpoczete');";
+			"', '"+ zamowienie.CalkowitaKwotaZakupu +"', '0');";
 			IDataReader reader = dbCommand.ExecuteReader();
 		}).Start();
 
@@ -133,7 +133,7 @@ public class PolaczenieBazy: MonoBehaviour {
 					DataZakupu = reader.GetString(2),
 					IloscZakupionychPrzedmiotow = reader.GetInt32(3),
 					CalkowitaKwotaZakupu = reader.GetFloat(4),
-					PostepZamowienia = reader.GetString(5)
+					PostepZamowienia = reader.GetInt32(5)
 				};
 				listaZamowien.Add(noweZamowienie);
 			}
@@ -145,6 +145,38 @@ public class PolaczenieBazy: MonoBehaviour {
 			Debug.Log(e);
 		}
 		return listaZamowien;
+	}
+
+	public List<Zamowienie> ZwrocWszystkieZamowieniaPoRealizacji(){
+		List<Zamowienie> listaZamowien = new List<Zamowienie>();
+		dbConnection.Open();
+		IDbCommand dbCommand = dbConnection.CreateCommand();
+		dbCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY PostepZamowienia;";
+		IDataReader reader = dbCommand.ExecuteReader();
+		while(reader.Read()){
+			Zamowienie noweZamowienie = new Zamowienie(){
+				ID = reader.GetInt32(0),
+				IdUzytkownika = reader.GetInt32(1),
+				DataZakupu = reader.GetString(2),
+				IloscZakupionychPrzedmiotow = reader.GetInt32(3),
+				CalkowitaKwotaZakupu = reader.GetFloat(4),
+				PostepZamowienia = reader.GetInt32(5)
+			};
+			listaZamowien.Add(noweZamowienie);
+		}
+		dbConnection.Close();
+		foreach(Zamowienie zamowienie in listaZamowien){
+			zamowienie.ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(zamowienie.ID);
+		}
+		return listaZamowien;
+	}
+
+	public void ZmienStatusZamowieniaPlusJeden(int idZamowienia, int nowyPostep){
+		dbConnection.Open();
+		IDbCommand dbCommand = dbConnection.CreateCommand();
+		dbCommand.CommandText = "UPDATE Zamowienia SET PostepZamowienia='"+ nowyPostep +"' WHERE (ID_Zamowienia = '" + idZamowienia + "');";
+		IDataReader reader = dbCommand.ExecuteReader();
+		dbConnection.Close();
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
