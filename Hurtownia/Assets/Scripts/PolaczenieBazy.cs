@@ -65,7 +65,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (Login='" + uzytkownik.Login + "' AND id='" + uzytkownik.ID + "');";
-		IDataReader reader = dbCommand.ExecuteReader();
+		dbCommand.ExecuteReader();
 		uzytkownik.Haslo = noweHaslo;
 		dbConnection.Close();
 	}
@@ -78,7 +78,7 @@ public class PolaczenieBazy: MonoBehaviour {
 				"('" + uzytkownik.Login + "', '" + uzytkownik.Haslo +"', '" + uzytkownik.NazwaFirmy +"', '" + uzytkownik.Adres + "'," +
 				"'"+ uzytkownik.Imie + "', '"+ uzytkownik.Nazwisko +"', '"+ uzytkownik.Mail +"', '"+ uzytkownik.NIP +"', '"+ uzytkownik.REGON +"', '"
 				+ uzytkownik.KRS + "', '" + 0 + "');";
-			IDataReader reader = dbCommand.ExecuteReader();
+			dbCommand.ExecuteReader();
 			dbConnection.Close();
 		}
 		catch(SqliteException){
@@ -95,7 +95,7 @@ public class PolaczenieBazy: MonoBehaviour {
 			dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu, PostepZamowienia) " +
 			"VALUES ('"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" + zamowienie.IloscZakupionychPrzedmiotow + 
 			"', '"+ zamowienie.CalkowitaKwotaZakupu +"', '0');";
-			IDataReader reader = dbCommand.ExecuteReader();
+			dbCommand.ExecuteReader();
 		}).Start();
 
 		new Thread(() =>{
@@ -113,7 +113,7 @@ public class PolaczenieBazy: MonoBehaviour {
 				IDbCommand thridCommand = dbConnection.CreateCommand();
 				thridCommand.CommandText = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
 				"', '" + idZamowienia + "');";
-				IDataReader thirdReader = thridCommand.ExecuteReader();
+				thridCommand.ExecuteReader();
 			}
 		}).Start();
 		dbConnection.Close();
@@ -175,7 +175,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "UPDATE Zamowienia SET PostepZamowienia='"+ nowyPostep +"' WHERE (ID = '" + idZamowienia + "');";
-		IDataReader reader = dbCommand.ExecuteReader();
+		dbCommand.ExecuteReader();
 		dbConnection.Close();
 	}
 
