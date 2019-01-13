@@ -7,10 +7,12 @@ using UnityEngine.UI;
 using System.Data;
 using System;
 using Mono.Data.Sqlite;
+using System.Threading;
 
 public class PolaczenieBazy: MonoBehaviour {
 	private readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
 	private IDbConnection dbConnection;
+	private int idZamowienia;
 	public PolaczenieBazy(){
         dbConnection = (IDbConnection)new SqliteConnection(path);
 	}
@@ -87,55 +89,60 @@ public class PolaczenieBazy: MonoBehaviour {
 
 	public void DodajNoweZamowienie(Zamowienie zamowienie){
 		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu, PostepZamowienia) " +
+
+		new Thread(() =>{
+			IDbCommand dbCommand = dbConnection.CreateCommand();
+			dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu, PostepZamowienia) " +
 			"VALUES ('"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" + zamowienie.IloscZakupionychPrzedmiotow + 
 			"', '"+ zamowienie.CalkowitaKwotaZakupu +"', 'Rozpoczete');";
-		IDataReader reader = dbCommand.ExecuteReader();
-		dbConnection.Close();
+			IDataReader reader = dbCommand.ExecuteReader();
+		}).Start();
 
-		dbConnection.Open();
-		IDbCommand secondCommand = dbConnection.CreateCommand();
-		secondCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY ID DESC LIMIT 1;";
-		IDataReader secondReader = secondCommand.ExecuteReader();
-		int idZamowienia = 0;
-		while(secondReader.Read()){
-			idZamowienia = secondReader.GetInt32(0);
-		}
-		dbConnection.Close();
+		new Thread(() =>{
+			IDbCommand secondCommand = dbConnection.CreateCommand();
+			secondCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY ID DESC LIMIT 1;";
+			IDataReader secondReader = secondCommand.ExecuteReader();
+			while(secondReader.Read()){
+				idZamowienia = secondReader.GetInt32(0);
+			}
+		}).Start();
 
-		dbConnection.Open();
-		foreach(Przedmiot przedmiot in zamowienie.ListaPrzedmiotow){
-			IDbCommand thridCommand = dbConnection.CreateCommand();
-			thridCommand.CommandText = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
-			"', '" + idZamowienia + "');";
-			IDataReader thirdReader = thridCommand.ExecuteReader();
-		}
+		new Thread(() =>{
+			Thread.Sleep(2000);
+			foreach(Przedmiot przedmiot in zamowienie.ListaPrzedmiotow){
+				IDbCommand thridCommand = dbConnection.CreateCommand();
+				thridCommand.CommandText = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
+				"', '" + idZamowienia + "');";
+				IDataReader thirdReader = thridCommand.ExecuteReader();
+			}
+		}).Start();
 		dbConnection.Close();
 	}
 
 	public List<Zamowienie> ZwrocListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE (ID_Uzytkownika = '" + uzytkownik.ID + "');";
-		IDataReader reader = dbCommand.ExecuteReader();
 		List<Zamowienie> listaZamowien = new List<Zamowienie>();
-		while(reader.Read()){
-			Zamowienie noweZamowienie = new Zamowienie(){
-				ID = reader.GetInt32(0),
-				//ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(reader.GetInt32(0)),
-				ListaPrzedmiotow = null,
-				IdUzytkownika = reader.GetInt32(2),
-				DataZakupu = reader.GetString(3),
-				IloscZakupionychPrzedmiotow = reader.GetInt32(4),
-				CalkowitaKwotaZakupu = reader.GetFloat(5),
-				PostepZamowienia = reader.GetString(6),
-			};
-			listaZamowien.Add(noweZamowienie);
-		}
-		dbConnection.Close();
-		foreach(Zamowienie zamowienie in listaZamowien){
-			zamowienie.ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(zamowienie.ID);
+		dbConnection.Open();
+		try{
+			IDbCommand dbCommand = dbConnection.CreateCommand();
+			dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE (ID_Uzytkownika = '" + uzytkownik.ID + "');";
+			IDataReader reader = dbCommand.ExecuteReader();
+			while(reader.Read()){
+				Zamowienie noweZamowienie = new Zamowienie(){
+					ID = reader.GetInt32(0),
+					IdUzytkownika = reader.GetInt32(1),
+					DataZakupu = reader.GetString(2),
+					IloscZakupionychPrzedmiotow = reader.GetInt32(3),
+					CalkowitaKwotaZakupu = reader.GetFloat(4),
+					PostepZamowienia = reader.GetString(5)
+				};
+				listaZamowien.Add(noweZamowienie);
+			}
+			dbConnection.Close();
+			foreach(Zamowienie zamowienie in listaZamowien){
+				zamowienie.ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(zamowienie.ID);
+			}
+		}catch(InvalidCastException e){
+			Debug.Log(e);
 		}
 		return listaZamowien;
 	}

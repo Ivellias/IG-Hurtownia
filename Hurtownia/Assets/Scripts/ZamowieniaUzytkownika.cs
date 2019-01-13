@@ -13,13 +13,14 @@ public class ZamowieniaUzytkownika : MonoBehaviour, IOnStart
     public float doStartThingsAndReturnHeightOfThisElement()
     {
 
-        //baza = new PolaczenieBazy();
-        //zamowienia = baza.ZwrocListeZamowienDoUzytkownika(OverSceneHandler.aktualnieZalogowanyUzytkownik);
-        zamowienia = OverSceneHandler.aktualnieZalogowanyUzytkownik.ListaZamowien;
+        baza = new PolaczenieBazy();
+        zamowienia = baza.ZwrocListeZamowienDoUzytkownika(OverSceneHandler.aktualnieZalogowanyUzytkownik);
+        Debug.Log(zamowienia.Count);
+        //zamowienia = OverSceneHandler.aktualnieZalogowanyUzytkownik.ListaZamowien;
 
         if (zamowienia == null)
         {
-            transform.GetChild(1).gameObject.GetComponent<Text>().text = "Aktualnie masz zamówień.";
+            transform.GetChild(1).gameObject.GetComponent<Text>().text = "Aktualnie nie masz zamówień.";
         }
         else
         {
