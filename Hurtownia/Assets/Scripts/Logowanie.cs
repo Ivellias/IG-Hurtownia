@@ -63,7 +63,7 @@ public class Logowanie : MonoBehaviour, IOnStart {
                 SceneManager.LoadScene("ZalogowanyPracownik");
             } else if(OverSceneHandler.aktualnieZalogowanyUzytkownik.PoziomDostepu == 3)
             {
-                SceneManager.LoadScene("ZalogowanyPracownik"); //tu zmienic na admina jak bedzie scena!!!!!!
+                SceneManager.LoadScene("ZalogowanyAdministrator"); 
             }
 
             

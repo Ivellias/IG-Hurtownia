@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ZalogowanyPracownik.unity
     guid: 85f69fe2830e92a4ea9b2e70649beef4
+  - enabled: 1
+    path: Assets/Scenes/ZalogowanyAdministrator.unity
+    guid: e2b2647df5974e9418d6a747a06da08c
   m_configObjects: {}

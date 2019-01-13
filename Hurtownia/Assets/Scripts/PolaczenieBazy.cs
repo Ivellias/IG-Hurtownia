@@ -174,7 +174,7 @@ public class PolaczenieBazy: MonoBehaviour {
 	public void ZmienStatusZamowieniaPlusJeden(int idZamowienia, int nowyPostep){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "UPDATE Zamowienia SET PostepZamowienia='"+ nowyPostep +"' WHERE (ID_Zamowienia = '" + idZamowienia + "');";
+		dbCommand.CommandText = "UPDATE Zamowienia SET PostepZamowienia='"+ nowyPostep +"' WHERE (ID = '" + idZamowienia + "');";
 		IDataReader reader = dbCommand.ExecuteReader();
 		dbConnection.Close();
 	}
