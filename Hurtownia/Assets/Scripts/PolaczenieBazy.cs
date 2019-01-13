@@ -38,7 +38,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		}
         if (uzytkownik.ID == -1) return null;
 		dbConnection.Close();
-		uzytkownik.ListaZamowien = ZwrocListeZamowienDoUzytkownika(uzytkownik);
+		//uzytkownik.ListaZamowien = ZwrocListeZamowienDoUzytkownika(uzytkownik);
         Debug.Log("id:"+uzytkownik.ID);
         Debug.Log("login:" + uzytkownik.Login);
         Debug.Log("haslo:" + uzytkownik.Haslo);
@@ -92,12 +92,19 @@ public class PolaczenieBazy: MonoBehaviour {
 			"VALUES ('"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" + zamowienie.IloscZakupionychPrzedmiotow + 
 			"', '"+ zamowienie.CalkowitaKwotaZakupu +"', 'Rozpoczete');";
 		IDataReader reader = dbCommand.ExecuteReader();
+		dbConnection.Close();
 
+		dbConnection.Open();
 		IDbCommand secondCommand = dbConnection.CreateCommand();
 		secondCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY ID DESC LIMIT 1;";
 		IDataReader secondReader = secondCommand.ExecuteReader();
-		int idZamowienia = secondReader.GetInt32(0);
+		int idZamowienia = 0;
+		while(secondReader.Read()){
+			idZamowienia = secondReader.GetInt32(0);
+		}
+		dbConnection.Close();
 
+		dbConnection.Open();
 		foreach(Przedmiot przedmiot in zamowienie.ListaPrzedmiotow){
 			IDbCommand thridCommand = dbConnection.CreateCommand();
 			thridCommand.CommandText = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
@@ -116,7 +123,8 @@ public class PolaczenieBazy: MonoBehaviour {
 		while(reader.Read()){
 			Zamowienie noweZamowienie = new Zamowienie(){
 				ID = reader.GetInt32(0),
-				ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(reader.GetInt32(0)),
+				//ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(reader.GetInt32(0)),
+				ListaPrzedmiotow = null,
 				IdUzytkownika = reader.GetInt32(2),
 				DataZakupu = reader.GetString(3),
 				IloscZakupionychPrzedmiotow = reader.GetInt32(4),
@@ -126,31 +134,36 @@ public class PolaczenieBazy: MonoBehaviour {
 			listaZamowien.Add(noweZamowienie);
 		}
 		dbConnection.Close();
+		foreach(Zamowienie zamowienie in listaZamowien){
+			zamowienie.ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(zamowienie.ID);
+		}
 		return listaZamowien;
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
+		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "SELECT * FROM PrzedmiotyZamowienia WHERE (ID_Zamowienia = '" + idZamowienia + "');";
 		IDataReader reader = dbCommand.ExecuteReader();
 		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
+		int idPrzedmiotu = 0;
 		while(reader.Read()){
-			int idPrzedmiotu = reader.GetInt32(1);
-			IDbCommand secondCommand = dbConnection.CreateCommand();
-			secondCommand.CommandText = "SELECT * FROM Przedmioty WHERE (id = '" + idPrzedmiotu + "');";
-			IDataReader secondReader = secondCommand.ExecuteReader();
-			while(secondReader.Read()){
-				Przedmiot przedmiot = new Przedmiot{
-                	ID = secondReader.GetInt32(0),
-                	Nazwa = secondReader.GetString(1),
-                	Cena = secondReader.GetFloat(2),
-                	CalkowitaIlosc = secondReader.GetInt32(3),
-                	Opis = secondReader.GetString(4)
-            	};
-            	listaPrzedmiotow.Add(przedmiot);
-			}
+			idPrzedmiotu = reader.GetInt32(1);
 		}
-
+		IDbCommand secondCommand = dbConnection.CreateCommand();
+		secondCommand.CommandText = "SELECT * FROM Przedmioty WHERE (id = '" + idPrzedmiotu + "');";
+		IDataReader secondReader = secondCommand.ExecuteReader();
+		while(secondReader.Read()){
+			Przedmiot przedmiot = new Przedmiot{
+                ID = secondReader.GetInt32(0),
+                Nazwa = secondReader.GetString(1),
+                Cena = secondReader.GetFloat(2),
+                CalkowitaIlosc = secondReader.GetInt32(3),
+                Opis = secondReader.GetString(4)
+            };
+            listaPrzedmiotow.Add(przedmiot);
+		}
+		dbConnection.Close();
 		return listaPrzedmiotow;
 	}
 
