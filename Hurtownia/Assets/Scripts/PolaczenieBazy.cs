@@ -11,11 +11,9 @@ using Mono.Data.Sqlite;
 public class PolaczenieBazy: MonoBehaviour {
 	private readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
 	private IDbConnection dbConnection;
-
 	public PolaczenieBazy(){
         dbConnection = (IDbConnection)new SqliteConnection(path);
 	}
-
 	public Uzytkownik WyszukajUzytkownika(string login, string haslo){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
@@ -39,8 +37,8 @@ public class PolaczenieBazy: MonoBehaviour {
 			uzytkownik.PoziomDostepu = reader.GetInt32(11);
 		}
         if (uzytkownik.ID == -1) return null;
-		uzytkownik.ListaZamowien = ZwrocListeZamowienDoUzytkownika(uzytkownik);
 		dbConnection.Close();
+		uzytkownik.ListaZamowien = ZwrocListeZamowienDoUzytkownika(uzytkownik);
         Debug.Log("id:"+uzytkownik.ID);
         Debug.Log("login:" + uzytkownik.Login);
         Debug.Log("haslo:" + uzytkownik.Haslo);
@@ -90,45 +88,49 @@ public class PolaczenieBazy: MonoBehaviour {
 	public void DodajNoweZamowienie(Zamowienie zamowienie){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu) " +
+		dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu, PostepZamowienia) " +
 			"VALUES ('"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" + zamowienie.IloscZakupionychPrzedmiotow + 
-			"', '"+ zamowienie.CalkowitaKwotaZakupu +"');";
+			"', '"+ zamowienie.CalkowitaKwotaZakupu +"', 'Rozpoczete');";
 		IDataReader reader = dbCommand.ExecuteReader();
 
-		dbCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY ID DESC LIMIT 1;";
-		reader = dbCommand.ExecuteReader();
-		int idZamowienia = reader.GetInt32(0);
+		IDbCommand secondCommand = dbConnection.CreateCommand();
+		secondCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY ID DESC LIMIT 1;";
+		IDataReader secondReader = secondCommand.ExecuteReader();
+		int idZamowienia = secondReader.GetInt32(0);
 
 		foreach(Przedmiot przedmiot in zamowienie.ListaPrzedmiotow){
-			dbCommand.CommandText = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
+			IDbCommand thridCommand = dbConnection.CreateCommand();
+			thridCommand.CommandText = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
 			"', '" + idZamowienia + "');";
-			reader = dbCommand.ExecuteReader();
+			IDataReader thirdReader = thridCommand.ExecuteReader();
 		}
 		dbConnection.Close();
 	}
 
 	public List<Zamowienie> ZwrocListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
-        IDbCommand dbCommand = dbConnection.CreateCommand();
+		dbConnection.Open();
+		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE (ID_Uzytkownika = '" + uzytkownik.ID + "');";
-        IDataReader reader = dbCommand.ExecuteReader();
+		IDataReader reader = dbCommand.ExecuteReader();
 		List<Zamowienie> listaZamowien = new List<Zamowienie>();
 		while(reader.Read()){
 			Zamowienie noweZamowienie = new Zamowienie(){
 				ID = reader.GetInt32(0),
 				ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(reader.GetInt32(0)),
-				//ZamowionyPrzedmiot = calkowitaListaPrzedmiotow[reader.GetInt32(1) - 1],
 				IdUzytkownika = reader.GetInt32(2),
 				DataZakupu = reader.GetString(3),
 				IloscZakupionychPrzedmiotow = reader.GetInt32(4),
 				CalkowitaKwotaZakupu = reader.GetFloat(5),
+				PostepZamowienia = reader.GetString(6),
 			};
 			listaZamowien.Add(noweZamowienie);
 		}
-        return listaZamowien;
+		dbConnection.Close();
+		return listaZamowien;
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
-        IDbCommand dbCommand = dbConnection.CreateCommand();
+		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "SELECT * FROM PrzedmiotyZamowienia WHERE (ID_Zamowienia = '" + idZamowienia + "');";
 		IDataReader reader = dbCommand.ExecuteReader();
 		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
@@ -136,19 +138,20 @@ public class PolaczenieBazy: MonoBehaviour {
 			int idPrzedmiotu = reader.GetInt32(1);
 			IDbCommand secondCommand = dbConnection.CreateCommand();
 			secondCommand.CommandText = "SELECT * FROM Przedmioty WHERE (id = '" + idPrzedmiotu + "');";
-			IDataReader secondReader = dbCommand.ExecuteReader();
+			IDataReader secondReader = secondCommand.ExecuteReader();
 			while(secondReader.Read()){
 				Przedmiot przedmiot = new Przedmiot{
-                	ID = reader.GetInt32(0),
-                	Nazwa = reader.GetString(1),
-                	Cena = reader.GetFloat(2),
-                	CalkowitaIlosc = reader.GetInt32(3),
-                	Opis = reader.GetString(4)
+                	ID = secondReader.GetInt32(0),
+                	Nazwa = secondReader.GetString(1),
+                	Cena = secondReader.GetFloat(2),
+                	CalkowitaIlosc = secondReader.GetInt32(3),
+                	Opis = secondReader.GetString(4)
             	};
             	listaPrzedmiotow.Add(przedmiot);
 			}
 		}
-        return listaPrzedmiotow;
+
+		return listaPrzedmiotow;
 	}
 
 	private List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
