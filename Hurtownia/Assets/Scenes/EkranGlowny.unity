@@ -1446,6 +1446,7 @@ MonoBehaviour:
   zarzadzanieTowarem: {fileID: 0}
   koszyk: {fileID: 0}
   zamowieniaUzytkownika: {fileID: 0}
+  zamowieniaPracownika: {fileID: 0}
 --- !u!222 &1385732227
 CanvasRenderer:
   m_ObjectHideFlags: 0
