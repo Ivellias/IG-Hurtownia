@@ -17,36 +17,41 @@ public class PolaczenieBazy: MonoBehaviour {
         dbConnection = (IDbConnection)new SqliteConnection(path);
 	}
 	public Uzytkownik WyszukajUzytkownika(string login, string haslo){
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-        Debug.Log(login + " " + haslo);
-		dbCommand.CommandText = "SELECT * FROM Uzytkownicy WHERE (Login='" + login + "' AND Haslo='" + haslo + "');";
-		IDataReader reader = dbCommand.ExecuteReader();
-		Uzytkownik uzytkownik = new Uzytkownik();
-        uzytkownik.ID = -1;
-		while(reader.Read()){
-			uzytkownik.ID = reader.GetInt32(0);
-			uzytkownik.Login = reader.GetString(1);
-			uzytkownik.Haslo = reader.GetString(2);
-			uzytkownik.NazwaFirmy = reader.GetString(3);
-			uzytkownik.Adres = reader.GetString(4);
-			uzytkownik.Imie = reader.GetString(5);
-			uzytkownik.Nazwisko = reader.GetString(6);
-			uzytkownik.Mail = reader.GetString(7);
-			uzytkownik.NIP = reader.GetInt32(8);
-			uzytkownik.REGON = reader.GetInt32(9);
-			uzytkownik.KRS = reader.GetInt32(10);
-			uzytkownik.PoziomDostepu = reader.GetInt32(11);
+		try{
+			dbConnection.Open();
+			IDbCommand dbCommand = dbConnection.CreateCommand();
+        	Debug.Log(login + " " + haslo);
+			dbCommand.CommandText = "SELECT * FROM Uzytkownicy WHERE (Login='" + login + "' AND Haslo='" + haslo + "');";
+			IDataReader reader = dbCommand.ExecuteReader();
+			Uzytkownik uzytkownik = new Uzytkownik();
+        	uzytkownik.ID = -1;
+			while(reader.Read()){
+				uzytkownik.ID = reader.GetInt32(0);
+				uzytkownik.Login = reader.GetString(1);
+				uzytkownik.Haslo = reader.GetString(2);
+				uzytkownik.NazwaFirmy = reader.GetString(3);
+				uzytkownik.Adres = reader.GetString(4);
+				uzytkownik.Imie = reader.GetString(5);
+				uzytkownik.Nazwisko = reader.GetString(6);
+				//uzytkownik.Mail = reader.GetString(7);
+				uzytkownik.NIP = reader.GetInt32(8);
+				uzytkownik.REGON = reader.GetInt32(9);
+				uzytkownik.KRS = reader.GetInt32(10);
+				uzytkownik.PoziomDostepu = reader.GetInt32(11);
+			}
+        	if (uzytkownik.ID == -1) return null;
+			Debug.Log("id:"+uzytkownik.ID);
+        	Debug.Log("login:" + uzytkownik.Login);
+        	Debug.Log("haslo:" + uzytkownik.Haslo);
+        	Debug.Log("imie:" + uzytkownik.Imie);
+        	Debug.Log("nazwisko:" + uzytkownik.Nazwisko);
+			dbConnection.Close();
+        	return uzytkownik;
+		}catch(Exception e){
+			Debug.Log("Blad przy wyszukiwianiu uzytkownika");
+			Debug.Log(e);
 		}
-        if (uzytkownik.ID == -1) return null;
-		dbConnection.Close();
-		//uzytkownik.ListaZamowien = ZwrocListeZamowienDoUzytkownika(uzytkownik);
-        Debug.Log("id:"+uzytkownik.ID);
-        Debug.Log("login:" + uzytkownik.Login);
-        Debug.Log("haslo:" + uzytkownik.Haslo);
-        Debug.Log("imie:" + uzytkownik.Imie);
-        Debug.Log("nazwisko:" + uzytkownik.Nazwisko);
-        return uzytkownik;
+		return null;
 	}
 
 	public List<Przedmiot> ZwrocWszystkiePrzedmioty(){
