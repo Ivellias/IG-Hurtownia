@@ -10,8 +10,13 @@ using Mono.Data.Sqlite;
 using System.Threading;
 
 public class PolaczenieBazy: MonoBehaviour {
-	private readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
-	private IDbConnection dbConnection;
+    private readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
+    //private readonly string path = "URI=file:" + Application.persistentDataPath + "/Hurtownia.s3db";
+    //private readonly string path = "URI=file:" + System.IO.Path.Combine(Application.persistentDataPath, "Database/Hurtownia.s3db");
+    //private readonly string path = "URI=file:C:/Hurtownia.s3db";
+
+
+    private IDbConnection dbConnection;
 	private int idZamowienia;
 	public PolaczenieBazy(){
         dbConnection = (IDbConnection)new SqliteConnection(path);
