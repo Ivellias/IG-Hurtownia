@@ -9,7 +9,6 @@ public class Logowanie : MonoBehaviour, IOnStart {
     public GameObject zapomnialem;
     public GameObject textFieldUsername;
     public GameObject textFieldPassword;
-    private PolaczenieBazy baza;
     private Uzytkownik uzytkownik;
 
     private Text info;
@@ -23,8 +22,7 @@ public class Logowanie : MonoBehaviour, IOnStart {
 
     public void Zaloguj()
     {
-        baza = new PolaczenieBazy();
-        uzytkownik = baza.WyszukajUzytkownika(textFieldUsername.GetComponent<InputField>().text, textFieldPassword.GetComponent<InputField>().text);
+        uzytkownik = PolaczenieBazy.WyszukajUzytkownika(textFieldUsername.GetComponent<InputField>().text, textFieldPassword.GetComponent<InputField>().text);
 
         if (textFieldUsername.GetComponent<InputField>().text == "" 
         || textFieldPassword.GetComponent<InputField>().text == "" || uzytkownik == null) { //jesli dane sa bledne

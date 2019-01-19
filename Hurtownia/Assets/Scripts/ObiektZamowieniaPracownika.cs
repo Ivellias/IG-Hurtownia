@@ -53,8 +53,7 @@ public class ObiektZamowieniaPracownika : MonoBehaviour
 
     public void ZmienStatus()
     {
-        PolaczenieBazy baza = new PolaczenieBazy();
-        baza.ZmienStatusZamowieniaPlusJeden(zamowienie.ID, zamowienie.PostepZamowienia+1);
+        PolaczenieBazy.ZmienStatusZamowieniaPlusJeden(zamowienie.ID, zamowienie.PostepZamowienia+1);
 
 
         GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().ZamowieniaPracownika();//rysowanie na nowo

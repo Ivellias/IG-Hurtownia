@@ -5,16 +5,13 @@ using UnityEngine.UI;
 
 public class ZamowieniaPracownika : MonoBehaviour, IOnStart
 {
-
-    private PolaczenieBazy baza;
     List<Zamowienie> zamowienia;
     public GameObject prefabZamowienia;
 
     public float doStartThingsAndReturnHeightOfThisElement()
     {
 
-        baza = new PolaczenieBazy();
-        zamowienia = baza.ZwrocWszystkieZamowieniaPoRealizacji();
+        zamowienia = PolaczenieBazy.ZwrocWszystkieZamowieniaPoRealizacji();
         Debug.Log(zamowienia.Count);
 
         if (zamowienia == null)

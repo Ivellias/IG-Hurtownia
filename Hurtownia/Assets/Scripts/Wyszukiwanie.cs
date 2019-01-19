@@ -6,15 +6,12 @@ using UnityEngine.UI;
 public class Wyszukiwanie : MonoBehaviour, IOnStart {
 
     private string doWyszukania;
-    private PolaczenieBazy baza;
     List<Przedmiot> przedmioty;
     public GameObject prefabPrzedmiotu;
 
     public float doStartThingsAndReturnHeightOfThisElement()
     {
-
-        baza = new PolaczenieBazy();
-        przedmioty = baza.ZwrocWszystkiePrzedmiotyPoNazwie(doWyszukania);
+        przedmioty = PolaczenieBazy.ZwrocWszystkiePrzedmiotyPoNazwie(doWyszukania);
 
         if(przedmioty == null)
         {

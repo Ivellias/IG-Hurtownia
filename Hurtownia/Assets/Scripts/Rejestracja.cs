@@ -66,8 +66,7 @@ public class Rejestracja : MonoBehaviour, IOnStart {
             //dodac tekst o zlym formacie czy cos
         }
 
-        PolaczenieBazy polaczenieBazy = new PolaczenieBazy();
-        string wiadomoscZwrotna = polaczenieBazy.DodajNowegoUzytkownika(nowyUzytkownik);
+        string wiadomoscZwrotna = PolaczenieBazy.DodajNowegoUzytkownika(nowyUzytkownik);
         info.text = wiadomoscZwrotna;
 
     }

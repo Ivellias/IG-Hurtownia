@@ -20,9 +20,8 @@ public class Koszyk : MonoBehaviour, IOnStart
         zamowienie.IloscZakupionychPrzedmiotow = OverSceneHandler.koszyk.Count;
         OverSceneHandler.koszyk = new List<Przedmiot>();
         zamowienie.DataZakupu = System.DateTime.Now.ToString("M/d/yyyy");
-
-        PolaczenieBazy baza = new PolaczenieBazy();
-        baza.DodajNoweZamowienie(zamowienie);
+        
+        PolaczenieBazy.DodajNoweZamowienie(zamowienie);
         RysujKoszyk();
 
     }

@@ -5,16 +5,12 @@ using UnityEngine.UI;
 
 public class ZamowieniaUzytkownika : MonoBehaviour, IOnStart
 {
-
-    private PolaczenieBazy baza;
     List<Zamowienie> zamowienia;
     public GameObject prefabZamowienia;
 
     public float doStartThingsAndReturnHeightOfThisElement()
     {
-
-        baza = new PolaczenieBazy();
-        zamowienia = baza.ZwrocListeZamowienDoUzytkownika(OverSceneHandler.aktualnieZalogowanyUzytkownik);
+        zamowienia = PolaczenieBazy.ZwrocListeZamowienDoUzytkownika(OverSceneHandler.aktualnieZalogowanyUzytkownik);
         Debug.Log(zamowienia.Count);
         //zamowienia = OverSceneHandler.aktualnieZalogowanyUzytkownik.ListaZamowien;
 

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class Uzytkownicy : MonoBehaviour, IOnStart
 {
-
-    private PolaczenieBazy baza;
     List<Uzytkownik> uzytkownicy;
     public GameObject prefabUzytkownika;
     private Uzytkownik doWyswietlenia;
@@ -14,7 +12,7 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
     public float doStartThingsAndReturnHeightOfThisElement()
     {
 
-        baza = new PolaczenieBazy();
+        //baza = new PolaczenieBazy();
         //uzytkownicy = baza ZWROC WSZYSTKICH UZYTKOWNIKOW
 
         if (uzytkownicy == null)
