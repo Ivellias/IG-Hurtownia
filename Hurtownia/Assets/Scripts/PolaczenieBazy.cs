@@ -124,10 +124,10 @@ public static class PolaczenieBazy {
 		}
 	}
 
-	public static void ZmienWartosciPrzedmiotu(int idPrzedmiotu){
+	public static void ZmienWartosciPrzedmiotu(int idPrzedmiotu, string nowaNazwa, float nowaCena, int nowaIlosc, string nowyOpis){
 		try{
-			string sqlQuery; // = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (id='" + idUzytkownika + "' AND PoziomDostepu='" + poziomDostepu + "');";
-			//toDo
+			string sqlQuery = "UPDATE Przedmioty SET Nazwa='" + nowaNazwa + "', Cena='" + nowaCena + "', Ilosc='" + nowaIlosc + "', Opis='" + nowyOpis + 
+			"' WHERE (id='" + idPrzedmiotu + "');";
 
 			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
     			connection.Open();
@@ -146,8 +146,8 @@ public static class PolaczenieBazy {
 
 	public static void DodajNowyPrzedmiot(Przedmiot przedmiot){
 		try{
-			string sqlQuery; // = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (id='" + idUzytkownika + "' AND PoziomDostepu='" + poziomDostepu + "');";
-			//toDo
+			string sqlQuery = "INSERT INTO Przedmioty(Nazwa, Cena, Ilosc, Opis) VALUES('" + przedmiot.Nazwa + "', '" + przedmiot.Cena + "', '" + przedmiot.CalkowitaIlosc + 
+			"', '" + przedmiot.Opis + "');";
 
 			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
     			connection.Open();
