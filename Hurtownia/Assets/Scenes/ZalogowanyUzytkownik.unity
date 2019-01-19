@@ -2883,7 +2883,7 @@ MonoBehaviour:
   logowanie: {fileID: 1143386585770790, guid: 358ccaf66f9d01a439f9f46bdddaaf4c, type: 2}
   wylogowano: {fileID: 1188248715642798, guid: 96b9ec4fd2052b449bab17ebe0277875, type: 2}
   inputWyszukiwania: {fileID: 638063895}
-  wyszukiwanie: {fileID: 1258407364895002, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
+  wyszukiwanie: {fileID: 1768728378801408, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
   opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
   rejestracja: {fileID: 0}
@@ -2891,6 +2891,8 @@ MonoBehaviour:
   koszyk: {fileID: 1399235605678212, guid: 7e8637cd4ef666149a165e601577fed7, type: 2}
   zamowieniaUzytkownika: {fileID: 1184670119363148, guid: b925642439121f143bda407f9ee61349,
     type: 2}
+  zamowieniaPracownika: {fileID: 0}
+  uzytkownicy: {fileID: 0}
 --- !u!222 &1941715868
 CanvasRenderer:
   m_ObjectHideFlags: 0
