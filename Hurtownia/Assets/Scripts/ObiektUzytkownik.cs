@@ -8,8 +8,8 @@ public class ObiektUzytkownik : MonoBehaviour
 
     private Uzytkownik uzytkownik;
 
-    private Uzytkownicy poleSzczegoly;
-    public void SetPoleSzczegoly(Uzytkownicy x)
+    private GameObject poleSzczegoly;
+    public void SetPoleSzczegoly(GameObject x)
     {
         poleSzczegoly = x;
     }
@@ -61,8 +61,8 @@ public class ObiektUzytkownik : MonoBehaviour
 
     public void Szczegoly()
     {
-        poleSzczegoly.UstawDoWyswietlenia(uzytkownik);
-        poleSzczegoly.WyswietlSzczegoly();
+        poleSzczegoly.GetComponent<Uzytkownicy>().UstawDoWyswietlenia(uzytkownik);
+        poleSzczegoly.GetComponent<Uzytkownicy>().WyswietlSzczegoly();
     }
 
 

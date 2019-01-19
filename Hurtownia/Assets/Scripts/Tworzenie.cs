@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 using System;
 
-public class Rejestracja : MonoBehaviour, IOnStart {
+public class Tworzenie: MonoBehaviour, IOnStart
+{
 
     private InputField nazwaUzytkownika;
     private InputField nazwaFirmy;
@@ -30,50 +31,62 @@ public class Rejestracja : MonoBehaviour, IOnStart {
         nowyUzytkownik.Login = nazwaUzytkownika.text;
         nowyUzytkownik.NazwaFirmy = nazwaFirmy.text;
         nowyUzytkownik.Adres = adres.text;
-        nowyUzytkownik.PoziomDostepu = 0;
+        nowyUzytkownik.PoziomDostepu = 1;
 
         int val = 0;
-        if(Int32.TryParse(nip.text, out val)){
+        if (Int32.TryParse(nip.text, out val))
+        {
             nowyUzytkownik.NIP = Int32.Parse(nip.text);
         }
-        else{
+        else
+        {
             //dodac tekst o zlym formacie czy cos
         }
 
-        if(Int32.TryParse(regon.text, out val)){
+        if (Int32.TryParse(regon.text, out val))
+        {
             nowyUzytkownik.REGON = Int32.Parse(regon.text);
         }
-        else{
+        else
+        {
             //dodac tekst o zlym formacie czy cos
         }
 
-        if(!krs.text.Equals(null)){
-            if(Int32.TryParse(krs.text, out val)){
+        if (!krs.text.Equals(null))
+        {
+            if (Int32.TryParse(krs.text, out val))
+            {
                 nowyUzytkownik.KRS = Int32.Parse(krs.text);
             }
-            else{
+            else
+            {
                 //dodac tekst o zlym formacie czy cos
             }
         }
 
-        if(!email.text.Equals(null)){
+        if (!email.text.Equals(null))
+        {
             nowyUzytkownik.Mail = email.text;
         }
 
-        if(haslo.text.Equals(powtorzHaslo.text)){
+        if (haslo.text.Equals(powtorzHaslo.text))
+        {
             nowyUzytkownik.Haslo = haslo.text;
         }
-        else{
+        else
+        {
             //dodac tekst o zlym formacie czy cos
         }
 
         string wiadomoscZwrotna = PolaczenieBazy.DodajNowegoUzytkownika(nowyUzytkownik);
         info.text = wiadomoscZwrotna;
+        //GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().Uzytkownicy();
 
     }
 
-	void Start () {
-        info = transform.GetChild(4).gameObject.GetComponent<Text>();
+    void Start()
+    {
+        info = transform.GetChild(3).gameObject.GetComponent<Text>();
         nazwaUzytkownika = gameObject.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<InputField>();
         nazwaFirmy = gameObject.transform.GetChild(0).transform.GetChild(1).gameObject.GetComponent<InputField>();
         adres = gameObject.transform.GetChild(0).transform.GetChild(2).gameObject.GetComponent<InputField>();

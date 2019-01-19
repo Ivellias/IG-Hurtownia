@@ -11,9 +11,9 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
 
     public float doStartThingsAndReturnHeightOfThisElement()
     {
+        ZamknijSzczegoly();
 
-        //baza = new PolaczenieBazy();
-        //uzytkownicy = baza ZWROC WSZYSTKICH UZYTKOWNIKOW
+        uzytkownicy = PolaczenieBazy.ZwrocListeWszystkichUzytkownikow();
 
         if (uzytkownicy == null)
         {
@@ -28,9 +28,9 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
                 GameObject tmp = Instantiate(prefabUzytkownika, gameObject.transform.GetChild(0).transform);
 
                 tmp.GetComponent<ObiektUzytkownik>().UstawUzytkownika(uzytkownik);
-                tmp.GetComponent<ObiektUzytkownik>().SetPoleSzczegoly(this);
+                tmp.GetComponent<ObiektUzytkownik>().SetPoleSzczegoly(this.gameObject);
 
-                tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(62f, -268f - (i * 110f));
+                tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(62f, -268f - (i * 105f));
                 i++;
             }
         }
@@ -48,35 +48,69 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
 
     public void ZamknijSzczegoly()
     {
-        foreach (Transform child in transform.GetChild(1).transform)
+        
+        foreach (Transform child in transform.GetChild(3).transform)
         {
-            child.gameObject.SetActiveRecursively(false);
+            child.gameObject.SetActive(false);
         }
+        transform.GetChild(3).gameObject.SetActive(false);
     }
 
     public void WyswietlSzczegoly()
     {
+        
+        foreach (Transform child in transform.GetChild(3).transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+        transform.GetChild(3).gameObject.SetActive(true);
 
+        if(doWyswietlenia.PoziomDostepu > 0)
+        {
+            transform.GetChild(3).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = "Degrad";
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = "Awansuj";
+        }
 
+        if(doWyswietlenia.PoziomDostepu == 3)
+        {
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(false);
+        }
 
-
-
+        transform.GetChild(3).transform.GetChild(2).GetComponent<Text>().text = doWyswietlenia.Login + " (" + doWyswietlenia.NazwaFirmy + ")";
+        transform.GetChild(3).transform.GetChild(3).GetComponent<Text>().text = "Adres: " + doWyswietlenia.Adres;
+        transform.GetChild(3).transform.GetChild(4).GetComponent<Text>().text = "E-mail: " + doWyswietlenia.Mail;
+        transform.GetChild(3).transform.GetChild(5).GetComponent<Text>().text = "NIP: " + doWyswietlenia.NIP;
+        transform.GetChild(3).transform.GetChild(6).GetComponent<Text>().text = "REGON: " + doWyswietlenia.REGON;
+        transform.GetChild(3).transform.GetChild(7).GetComponent<Text>().text = "KRS: " + doWyswietlenia.KRS;
     }
 
 
     public void Odrzuc()
     {
+        int tmp = 0;
 
+        PolaczenieBazy.ZmienDaneUzytkownika(doWyswietlenia.ID, doWyswietlenia.Login, doWyswietlenia.Haslo, doWyswietlenia.NazwaFirmy, doWyswietlenia.Adres
+            , doWyswietlenia.Imie, doWyswietlenia.Nazwisko, doWyswietlenia.Mail, doWyswietlenia.NIP, doWyswietlenia.REGON, doWyswietlenia.KRS, tmp);
+
+        ZamknijSzczegoly();
+        GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().Uzytkownicy();
     }
 
     public void Akceptuj()
     {
+        int tmp = doWyswietlenia.PoziomDostepu + 1;
+        if (tmp > 3) tmp = 3;
 
+        PolaczenieBazy.ZmienDaneUzytkownika(doWyswietlenia.ID, doWyswietlenia.Login, doWyswietlenia.Haslo, doWyswietlenia.NazwaFirmy, doWyswietlenia.Adres
+            , doWyswietlenia.Imie, doWyswietlenia.Nazwisko, doWyswietlenia.Mail, doWyswietlenia.NIP, doWyswietlenia.REGON, doWyswietlenia.KRS, tmp);
+
+        ZamknijSzczegoly();
+        GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().Uzytkownicy();
     }
 
     public void StworzUzytkownika()
     {
-
+        GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().TworzenieUzytkownika();
     }
 
 }
