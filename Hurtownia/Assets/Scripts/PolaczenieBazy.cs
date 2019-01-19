@@ -11,7 +11,7 @@ using System.Threading;
 
 public static class PolaczenieBazy {
     private static readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
-	//private int idZamowienia;
+	private static int idZamowienia;
 	public static Uzytkownik WyszukajUzytkownika(string login, string haslo){
 		try{
 			string sqlQuery = "SELECT * FROM Uzytkownicy WHERE (Login='" + login + "' AND Haslo='" + haslo + "');";
@@ -78,24 +78,41 @@ public static class PolaczenieBazy {
     }
 
 	public static void ZmienHaslo(Uzytkownik uzytkownik, string noweHaslo){
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (Login='" + uzytkownik.Login + "' AND id='" + uzytkownik.ID + "');";
-		dbCommand.ExecuteReader();
-		uzytkownik.Haslo = noweHaslo;
-		dbConnection.Close();
+		try{
+			string sqlQuery = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (Login='" + uzytkownik.Login + "' AND id='" + uzytkownik.ID + "');";
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						uzytkownik.Haslo = noweHaslo;
+					}
+    			}
+  			}
+		}catch(Exception e){
+			Debug.Log("Blad przy zmianie hasla uzytkownika");
+			Debug.Log(e);
+		}
 	}
 
 	public static String DodajNowegoUzytkownika(Uzytkownik uzytkownik){
 		try{
-			dbConnection.Open();
-			IDbCommand dbCommand = dbConnection.CreateCommand();
-			dbCommand.CommandText = "INSERT INTO Uzytkownicy (Login, Haslo, NazwaFirmy, Adres, Imie, Nazwisko, Mail, NIP, REGON, KRS, PoziomDostepu) VALUES" +  
+			string sqlQuery = "INSERT INTO Uzytkownicy (Login, Haslo, NazwaFirmy, Adres, Imie, Nazwisko, Mail, NIP, REGON, KRS, PoziomDostepu) VALUES" +  
 				"('" + uzytkownik.Login + "', '" + uzytkownik.Haslo +"', '" + uzytkownik.NazwaFirmy +"', '" + uzytkownik.Adres + "'," +
 				"'"+ uzytkownik.Imie + "', '"+ uzytkownik.Nazwisko +"', '"+ uzytkownik.Mail +"', '"+ uzytkownik.NIP +"', '"+ uzytkownik.REGON +"', '"
 				+ uzytkownik.KRS + "', '" + 0 + "');";
-			dbCommand.ExecuteReader();
-			dbConnection.Close();
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+					}
+    			}
+  			}			
 		}
 		catch(SqliteException){
 			return "Login, NIP, REGON lub KRS nie sa poprawne!";
@@ -104,143 +121,214 @@ public static class PolaczenieBazy {
 	}
 
 	public static void DodajNoweZamowienie(Zamowienie zamowienie){
-		dbConnection.Open();
+		try{
 
-		new Thread(() =>{
-			IDbCommand dbCommand = dbConnection.CreateCommand();
-			dbCommand.CommandText = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu, PostepZamowienia) " +
-			"VALUES ('"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" + zamowienie.IloscZakupionychPrzedmiotow + 
-			"', '"+ zamowienie.CalkowitaKwotaZakupu +"', '0');";
-			dbCommand.ExecuteReader();
-		}).Start();
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
 
-		new Thread(() =>{
-			IDbCommand secondCommand = dbConnection.CreateCommand();
-			secondCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY ID DESC LIMIT 1;";
-			IDataReader secondReader = secondCommand.ExecuteReader();
-			while(secondReader.Read()){
-				idZamowienia = secondReader.GetInt32(0);
-			}
-		}).Start();
+    			using (IDbCommand command = connection.CreateCommand()) {
+					string sqlQuery = "INSERT INTO Zamowienia (ID_Uzytkownika, DataZakupu, IloscZakupionychPrzedmiotow, CalkowitaKwotaZakupu, PostepZamowienia) " +
+									"VALUES ('"+ zamowienie.IdUzytkownika +"', '" + zamowienie.DataZakupu + "', '" + zamowienie.IloscZakupionychPrzedmiotow + 
+									"', '"+ zamowienie.CalkowitaKwotaZakupu +"', '0');";
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+					}
 
-		new Thread(() =>{
-			Thread.Sleep(2000);
-			foreach(Przedmiot przedmiot in zamowienie.ListaPrzedmiotow){
-				IDbCommand thridCommand = dbConnection.CreateCommand();
-				thridCommand.CommandText = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
-				"', '" + idZamowienia + "');";
-				thridCommand.ExecuteReader();
-			}
-		}).Start();
-		dbConnection.Close();
+    			}
+
+				using (IDbCommand command = connection.CreateCommand()) {
+					string sqlQuery = "SELECT * FROM Zamowienia ORDER BY ID DESC LIMIT 1;";
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+							idZamowienia = reader.GetInt32(0);
+						}
+					}
+					
+    			}
+
+				foreach(Przedmiot przedmiot in zamowienie.ListaPrzedmiotow){
+					using (IDbCommand command = connection.CreateCommand()) {
+						string sqlQuery = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
+								"', '" + idZamowienia + "');";
+						command.CommandText = sqlQuery;
+						using (IDataReader reader = command.ExecuteReader()){
+						}
+					
+    				}
+				}
+  			}			
+		}
+		catch(Exception e){
+			Debug.Log("Blad przy dodawaniu nowego zamowienia");
+			Debug.Log(e);
+		}
 	}
 
 	public static List<Zamowienie> ZwrocListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
-		List<Zamowienie> listaZamowien = new List<Zamowienie>();
-		dbConnection.Open();
 		try{
-			IDbCommand dbCommand = dbConnection.CreateCommand();
-			dbCommand.CommandText = "SELECT * FROM Zamowienia WHERE (ID_Uzytkownika = '" + uzytkownik.ID + "');";
-			IDataReader reader = dbCommand.ExecuteReader();
-			while(reader.Read()){
-				Zamowienie noweZamowienie = new Zamowienie(){
-					ID = reader.GetInt32(0),
-					IdUzytkownika = reader.GetInt32(1),
-					DataZakupu = reader.GetString(2),
-					IloscZakupionychPrzedmiotow = reader.GetInt32(3),
-					CalkowitaKwotaZakupu = reader.GetFloat(4),
-					PostepZamowienia = reader.GetInt32(5)
-				};
-				listaZamowien.Add(noweZamowienie);
-			}
-			dbConnection.Close();
+			List<Zamowienie> listaZamowien = new List<Zamowienie>();
+			string sqlQuery = "SELECT * FROM Zamowienia WHERE (ID_Uzytkownika = '" + uzytkownik.ID + "');";
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+							Zamowienie noweZamowienie = new Zamowienie(){
+								ID = reader.GetInt32(0),
+								IdUzytkownika = reader.GetInt32(1),
+								DataZakupu = reader.GetString(2),
+								IloscZakupionychPrzedmiotow = reader.GetInt32(3),
+								CalkowitaKwotaZakupu = reader.GetFloat(4),
+								PostepZamowienia = reader.GetInt32(5)
+							};
+							listaZamowien.Add(noweZamowienie);
+						}
+					}
+    			}
+  			}
 			foreach(Zamowienie zamowienie in listaZamowien){
 				zamowienie.ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(zamowienie.ID);
 			}
-		}catch(InvalidCastException e){
+			return listaZamowien;
+		}catch(Exception e){
+			Debug.Log("Blad przy zwracaniu listy zamowien dla uzytkownika");
 			Debug.Log(e);
 		}
-		return listaZamowien;
+		return null;
 	}
 
 	public static List<Zamowienie> ZwrocWszystkieZamowieniaPoRealizacji(){
-		List<Zamowienie> listaZamowien = new List<Zamowienie>();
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "SELECT * FROM Zamowienia ORDER BY PostepZamowienia;";
-		IDataReader reader = dbCommand.ExecuteReader();
-		while(reader.Read()){
-			Zamowienie noweZamowienie = new Zamowienie(){
-				ID = reader.GetInt32(0),
-				IdUzytkownika = reader.GetInt32(1),
-				DataZakupu = reader.GetString(2),
-				IloscZakupionychPrzedmiotow = reader.GetInt32(3),
-				CalkowitaKwotaZakupu = reader.GetFloat(4),
-				PostepZamowienia = reader.GetInt32(5)
-			};
-			listaZamowien.Add(noweZamowienie);
+		try{
+			List<Zamowienie> listaZamowien = new List<Zamowienie>();
+			string sqlQuery = "SELECT * FROM Zamowienia ORDER BY PostepZamowienia;";
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+							Zamowienie noweZamowienie = new Zamowienie(){
+								ID = reader.GetInt32(0),
+								IdUzytkownika = reader.GetInt32(1),
+								DataZakupu = reader.GetString(2),
+								IloscZakupionychPrzedmiotow = reader.GetInt32(3),
+								CalkowitaKwotaZakupu = reader.GetFloat(4),
+								PostepZamowienia = reader.GetInt32(5)
+							};
+							listaZamowien.Add(noweZamowienie);
+						}
+					}
+    			}
+  			}
+			foreach(Zamowienie zamowienie in listaZamowien){
+				zamowienie.ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(zamowienie.ID);
+			}
+			return listaZamowien;
+		}catch(Exception e){
+			Debug.Log("Blad przy zwracaniu listy zamowien po realizacji");
+			Debug.Log(e);
 		}
-		dbConnection.Close();
-		foreach(Zamowienie zamowienie in listaZamowien){
-			zamowienie.ListaPrzedmiotow = ZwrocListePrzedmiotowDlaZamowienia(zamowienie.ID);
-		}
-		return listaZamowien;
+		return null;
 	}
 
 	public static void ZmienStatusZamowieniaPlusJeden(int idZamowienia, int nowyPostep){
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "UPDATE Zamowienia SET PostepZamowienia='"+ nowyPostep +"' WHERE (ID = '" + idZamowienia + "');";
-		dbCommand.ExecuteReader();
-		dbConnection.Close();
+		try{
+			string sqlQuery = "UPDATE Zamowienia SET PostepZamowienia='"+ nowyPostep +"' WHERE (ID = '" + idZamowienia + "');";
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+					}
+    			}
+  			}
+		}catch(Exception e){
+			Debug.Log("Blad przy zmianie statusu zamowienia");
+			Debug.Log(e);
+		}
 	}
 
 	private static List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = "SELECT * FROM PrzedmiotyZamowienia WHERE (ID_Zamowienia = '" + idZamowienia + "');";
-		IDataReader reader = dbCommand.ExecuteReader();
-		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
-		int idPrzedmiotu = 0;
-		while(reader.Read()){
-			idPrzedmiotu = reader.GetInt32(1);
+		try{
+			List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
+			int idPrzedmiotu = 0;
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					string sqlQuery = "SELECT * FROM PrzedmiotyZamowienia WHERE (ID_Zamowienia = '" + idZamowienia + "');";
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+							idPrzedmiotu = reader.GetInt32(1);
+						}
+					}
+    			}
+				
+				using (IDbCommand command = connection.CreateCommand()) {
+					string sqlQuery = "SELECT * FROM Przedmioty WHERE (id = '" + idPrzedmiotu + "');";
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+							Przedmiot przedmiot = new Przedmiot{
+                				ID = reader.GetInt32(0),
+                				Nazwa = reader.GetString(1),
+                				Cena = reader.GetFloat(2),
+                				CalkowitaIlosc = reader.GetInt32(3),
+                				Opis = reader.GetString(4)
+							};
+            				listaPrzedmiotow.Add(przedmiot);
+						}
+					}
+    			}
+  			}
+			return listaPrzedmiotow;
+		}catch(Exception e){
+			Debug.Log("Blad przy zwracaniu listy przedmiotow dla zamowienia");
+			Debug.Log(e);
 		}
-		IDbCommand secondCommand = dbConnection.CreateCommand();
-		secondCommand.CommandText = "SELECT * FROM Przedmioty WHERE (id = '" + idPrzedmiotu + "');";
-		IDataReader secondReader = secondCommand.ExecuteReader();
-		while(secondReader.Read()){
-			Przedmiot przedmiot = new Przedmiot{
-                ID = secondReader.GetInt32(0),
-                Nazwa = secondReader.GetString(1),
-                Cena = secondReader.GetFloat(2),
-                CalkowitaIlosc = secondReader.GetInt32(3),
-                Opis = secondReader.GetString(4)
-            };
-            listaPrzedmiotow.Add(przedmiot);
-		}
-		dbConnection.Close();
-		return listaPrzedmiotow;
+		return null;
 	}
 
 	private static List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
-		dbConnection.Open();
-		IDbCommand dbCommand = dbConnection.CreateCommand();
-		dbCommand.CommandText = komenda;
-        Debug.Log(komenda);
-		IDataReader reader = dbCommand.ExecuteReader();
-		List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
-		while(reader.Read()){
-            Przedmiot przedmiot = new Przedmiot
-            {
-                ID = reader.GetInt32(0),
-                Nazwa = reader.GetString(1),
-                Cena = reader.GetFloat(2),
-                CalkowitaIlosc = reader.GetInt32(3),
-                Opis = reader.GetString(4)
-            };
-            listaPrzedmiotow.Add(przedmiot);
+		try{
+			List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
+			string sqlQuery = komenda;
+			Debug.Log(komenda);
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+            				Przedmiot przedmiot = new Przedmiot{
+                				ID = reader.GetInt32(0),
+                				Nazwa = reader.GetString(1),
+                				Cena = reader.GetFloat(2),
+                				CalkowitaIlosc = reader.GetInt32(3),
+                				Opis = reader.GetString(4)
+            				};
+            				listaPrzedmiotow.Add(przedmiot);
+						}
+					}
+    			}
+  			}
+			return listaPrzedmiotow;
+		}catch(Exception e){
+			Debug.Log("Blad przy zwracaniu listy przedmiotow");
+			Debug.Log(e);
 		}
-		dbConnection.Close();
-		return listaPrzedmiotow;
+		return null;
 	}
 }
