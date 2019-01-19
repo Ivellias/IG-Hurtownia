@@ -36,7 +36,7 @@ public static class PolaczenieBazy {
 								uzytkownik.Mail = reader.GetString(7);
 							uzytkownik.NIP = reader.GetInt32(8);
 							uzytkownik.REGON = reader.GetInt32(9);
-							if(!reader.GetString(10).Equals(null))
+							if(reader.GetInt32(10) != 0)
 								uzytkownik.KRS = reader.GetInt32(10);
 							uzytkownik.PoziomDostepu = reader.GetInt32(11);
 						}
@@ -59,6 +59,109 @@ public static class PolaczenieBazy {
 			Debug.Log(e);
 		}
 		return null;
+	}
+
+	public static List<Uzytkownik> ZwrocListeWszystkichUzytkownikow(){
+		try{
+			string sqlQuery = "SELECT * FROM Uzytkownicy ORDER BY PoziomDostepu;";
+			List<Uzytkownik> listaUzytykownikow = new List<Uzytkownik>();
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+							Uzytkownik uzytkownik = new Uzytkownik();
+							uzytkownik.ID = reader.GetInt32(0);
+							uzytkownik.Login = reader.GetString(1);
+							uzytkownik.Haslo = reader.GetString(2);
+							uzytkownik.NazwaFirmy = reader.GetString(3);
+							uzytkownik.Adres = reader.GetString(4);
+							uzytkownik.Imie = reader.GetString(5);
+							uzytkownik.Nazwisko = reader.GetString(6);
+							if(!reader.GetString(7).Equals(null))
+								uzytkownik.Mail = reader.GetString(7);
+							uzytkownik.NIP = reader.GetInt32(8);
+							uzytkownik.REGON = reader.GetInt32(9);
+							if(reader.GetInt32(10) != 0)
+								uzytkownik.KRS = reader.GetInt32(10);
+							uzytkownik.PoziomDostepu = reader.GetInt32(11);
+
+							listaUzytykownikow.Add(uzytkownik);
+						}
+					}
+    			}
+  			}
+        	return listaUzytykownikow;
+		}catch(Exception e){
+			Debug.Log("Blad przy zwracaniu listy wszystkich uzytkownikow");
+			Debug.Log(e);
+		}
+		return null;
+	}
+
+	public static void ZmienDaneUzytkownika(int idUzytkownika, string nowyLogin, string noweHaslo, string nowaNazwaFirmy, string nowyAdres, string noweImie, 
+						string noweNazwisko, string nowyMail, int nowyNip, int nowyRegon, int nowyKrs, int nowyPoziomDostepu){
+		try{
+			string sqlQuery = "UPDATE Uzytkownicy SET Login='" + nowyLogin + "', Haslo='" + noweHaslo + "', NazwaFirmy='" + nowaNazwaFirmy + 
+			"', Adres='" + nowyAdres + "', Imie='" + noweImie + "', Nazwisko='" + noweNazwisko + "', Mail='" + nowyMail + "', NIP='" + nowyNip + 
+			"', REGON='" + nowyRegon + "', KRS='" + nowyKrs + "', PoziomDostepu='" + nowyPoziomDostepu + "' WHERE (id='" + idUzytkownika + "');";
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+					}
+    			}
+  			}
+		}catch(Exception e){
+			Debug.Log("Blad przy zmianie danych uzytkownika");
+			Debug.Log(e);
+		}
+	}
+
+	public static void ZmienWartosciPrzedmiotu(int idPrzedmiotu){
+		try{
+			string sqlQuery; // = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (id='" + idUzytkownika + "' AND PoziomDostepu='" + poziomDostepu + "');";
+			//toDo
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+					}
+    			}
+  			}
+		}catch(Exception e){
+			Debug.Log("Blad przy zmianie wartosci przedmiotu");
+			Debug.Log(e);
+		}
+	}
+
+	public static void DodajNowyPrzedmiot(Przedmiot przedmiot){
+		try{
+			string sqlQuery; // = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (id='" + idUzytkownika + "' AND PoziomDostepu='" + poziomDostepu + "');";
+			//toDo
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+					}
+    			}
+  			}
+		}catch(Exception e){
+			Debug.Log("Blad przy dodawaniu nowego przedmiotu");
+			Debug.Log(e);
+		}
 	}
 
 	public static List<Przedmiot> ZwrocWszystkiePrzedmioty(){
