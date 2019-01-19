@@ -18,6 +18,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject koszyk;
     public GameObject zamowieniaUzytkownika;
     public GameObject zamowieniaPracownika;
+    public GameObject uzytkownicy;
 
     //tutaj jest lista
     private List<GameObject> listaObiektow = new List<GameObject>();
@@ -42,6 +43,18 @@ public class ImplementacjaSrodka : MonoBehaviour {
     {
         UsunWszystkiePrefaby();
         GameObject prefab = Instantiate(zamowieniaPracownika, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
+
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+    }
+
+    public void Uzytkownicy()
+    {
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(uzytkownicy, gameObject.transform);
         float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
 
         UstawWysokosc(wysokosc);

@@ -23,6 +23,7 @@ public class ZmianaHasla : MonoBehaviour {
         else{
             //haslo nie jest identyczne z obecnym
         }
+
     }
 
 
