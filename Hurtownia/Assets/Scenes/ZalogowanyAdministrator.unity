@@ -520,7 +520,7 @@ MonoBehaviour:
     type: 2}
   opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
   rejestracja: {fileID: 0}
-  zarzadzanieTowarem: {fileID: 1210006547546828, guid: 193044cdd47523e489f21a01129428be,
+  zarzadzanieTowarem: {fileID: 1566524807815374, guid: 193044cdd47523e489f21a01129428be,
     type: 2}
   koszyk: {fileID: 0}
   zamowieniaUzytkownika: {fileID: 0}
@@ -530,6 +530,7 @@ MonoBehaviour:
     type: 2}
   tworzenieUzytkownika: {fileID: 1326967637058176, guid: 4cba00a1a56fb87408fb9f67e1d373cf,
     type: 2}
+  dodajTowar: {fileID: 1273965523109814, guid: 19985461b0ee3a440b58334f025c592a, type: 2}
 --- !u!224 &295702775
 RectTransform:
   m_ObjectHideFlags: 0

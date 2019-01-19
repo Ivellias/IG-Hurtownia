@@ -144,27 +144,63 @@ public static class PolaczenieBazy {
 		}
 	}
 
-	public static void DodajNowyPrzedmiot(Przedmiot przedmiot){
-		try{
-			string sqlQuery = "INSERT INTO Przedmioty(Nazwa, Cena, Ilosc, Opis) VALUES('" + przedmiot.Nazwa + "', '" + przedmiot.Cena + "', '" + przedmiot.CalkowitaIlosc + 
-			"', '" + przedmiot.Opis + "');";
+    public static String DodajNowyPrzedmiot(Przedmiot przedmiot)
+    {
+        try
+        {
+            string sqlQuery = "INSERT INTO Przedmioty(Nazwa, Cena, Ilosc, Opis) VALUES('" + przedmiot.Nazwa + "', '" + przedmiot.Cena + "', '" + przedmiot.CalkowitaIlosc +
+            "', '" + przedmiot.Opis + "');";
 
-			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
-    			connection.Open();
+            using (IDbConnection connection = new SqliteConnection(path) as IDbConnection)
+            {
+                connection.Open();
 
-    			using (IDbCommand command = connection.CreateCommand()) {
-					command.CommandText = sqlQuery;
-					using (IDataReader reader = command.ExecuteReader()){
-					}
-    			}
-  			}
-		}catch(Exception e){
-			Debug.Log("Blad przy dodawaniu nowego przedmiotu");
-			Debug.Log(e);
-		}
-	}
+                using (IDbCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = sqlQuery;
+                    using (IDataReader reader = command.ExecuteReader())
+                    {
+                    }
+                }
+            }
+            return "Pomyslnie dodano przedmiot";
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Blad przy dodawaniu nowego przedmiotu");
+            Debug.Log(e);
+            return "Nie udalo sie dodac przedmiotu";
+        }
+    }
 
-	public static List<Przedmiot> ZwrocWszystkiePrzedmioty(){
+    public static void UsunPrzedmiot(int idPrzedmiotu)
+    {
+        try
+        {
+            string sqlQuery = "DELETE FROM Przedmioty WHERE(id = '" + idPrzedmiotu + "'); ";
+
+
+            using (IDbConnection connection = new SqliteConnection(path) as IDbConnection)
+            {
+                connection.Open();
+
+                using (IDbCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = sqlQuery;
+                    using (IDataReader reader = command.ExecuteReader())
+                    {
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Blad przy zmianie wartosci przedmiotu");
+            Debug.Log(e);
+        }
+    }
+
+    public static List<Przedmiot> ZwrocWszystkiePrzedmioty(){
 		List<Przedmiot> ListaPrzedmiotow = ZwrocListePrzedmiotow("SELECT * FROM Przedmioty;");
 		if (ListaPrzedmiotow.Count == 0) 
 			return null;

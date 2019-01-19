@@ -1491,6 +1491,7 @@ MonoBehaviour:
   zamowieniaPracownika: {fileID: 0}
   uzytkownicy: {fileID: 0}
   tworzenieUzytkownika: {fileID: 0}
+  dodajTowar: {fileID: 0}
 --- !u!222 &1385732227
 CanvasRenderer:
   m_ObjectHideFlags: 0

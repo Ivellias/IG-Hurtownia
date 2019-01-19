@@ -18,7 +18,7 @@ public class ZarzadzanieTowarem1 : MonoBehaviour, IOnStart
 
         if (przedmioty == null)
         {
-            transform.GetChild(1).gameObject.GetComponent<Text>().text = "Nie znaleziono takiego przedmiotu!";
+            transform.GetChild(1).gameObject.GetComponent<Text>().text = "Nic nie znaleziono!";
         }
         else
         {
@@ -58,7 +58,7 @@ public class ZarzadzanieTowarem1 : MonoBehaviour, IOnStart
 
         transform.GetChild(3).transform.GetChild(0).transform.GetChild(0).GetComponent<InputField>().text = doWyswietlenia.Nazwa;
         transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).GetComponent<InputField>().text = doWyswietlenia.CalkowitaIlosc.ToString();
-
+        transform.GetChild(3).transform.GetChild(2).transform.GetChild(0).GetComponent<InputField>().text = doWyswietlenia.Cena.ToString();
 
     }
 
@@ -74,18 +74,23 @@ public class ZarzadzanieTowarem1 : MonoBehaviour, IOnStart
 
     public void UsunTowar()
     {
-        
+        PolaczenieBazy.UsunPrzedmiot(doWyswietlenia.ID);
+        GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().ZarzadzanieTowarem();
     }
 
     public void Zatwierdz()
     {
-
+        string nazwa = transform.GetChild(3).transform.GetChild(0).transform.GetChild(0).GetComponent<InputField>().text;
+        float cena = float.Parse(transform.GetChild(3).transform.GetChild(2).transform.GetChild(0).GetComponent<InputField>().text);
+        int ilosc = int.Parse(transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).GetComponent<InputField>().text);
+        PolaczenieBazy.ZmienWartosciPrzedmiotu(doWyswietlenia.ID, nazwa, cena, ilosc, doWyswietlenia.Opis);
+        GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().ZarzadzanieTowarem();
     }
 
 
     public void DodajTowar()
     {
-        //z implementacji srodka dodac
+        GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().DodajTowar();
     }
 
     public void ustawCoWyszukac(string a)

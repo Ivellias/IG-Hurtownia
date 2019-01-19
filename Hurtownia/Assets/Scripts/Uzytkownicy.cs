@@ -73,7 +73,15 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
 
         if(doWyswietlenia.PoziomDostepu == 3)
         {
-            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Button>().enabled = false;
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Text>().enabled = false;
+        }
+        else
+        {
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Button>().enabled = true;
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Text>().enabled = true;
         }
 
         transform.GetChild(3).transform.GetChild(2).GetComponent<Text>().text = doWyswietlenia.Login + " (" + doWyswietlenia.NazwaFirmy + ")";
