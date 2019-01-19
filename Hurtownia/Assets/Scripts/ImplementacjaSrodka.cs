@@ -76,6 +76,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
         SprawdzScroll(wysokosc);
     }
 
+
 	public void FakturyUzytkownika()
     {
 
@@ -101,6 +102,8 @@ public class ImplementacjaSrodka : MonoBehaviour {
     {
         UsunWszystkiePrefaby();
         GameObject prefab = Instantiate(zarzadzanieTowarem, gameObject.transform);
+        prefab.GetComponent<ZarzadzanieTowarem1>().ustawCoWyszukac(inputWyszukiwania.GetComponent<InputField>().text);
+        inputWyszukiwania.GetComponent<InputField>().text = "";
         float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
         UstawWysokosc(wysokosc);
         //DODAJ DO LISTY PREFABOW
