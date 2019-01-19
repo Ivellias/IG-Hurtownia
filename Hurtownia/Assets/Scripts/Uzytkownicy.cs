@@ -48,7 +48,10 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
 
     public void ZamknijSzczegoly()
     {
-
+        foreach (Transform child in transform.GetChild(1).transform)
+        {
+            child.gameObject.SetActiveRecursively(false);
+        }
     }
 
     public void WyswietlSzczegoly()
