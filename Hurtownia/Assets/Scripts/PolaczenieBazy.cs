@@ -9,48 +9,50 @@ using System;
 using Mono.Data.Sqlite;
 using System.Threading;
 
-public class PolaczenieBazy: MonoBehaviour {
-    private readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
-    //private readonly string path = "URI=file:" + Application.persistentDataPath + "/Hurtownia.s3db";
-    //private readonly string path = "URI=file:" + System.IO.Path.Combine(Application.persistentDataPath, "Database/Hurtownia.s3db");
-    //private readonly string path = "URI=file:C:/Hurtownia.s3db";
-
-
-    private IDbConnection dbConnection;
-	private int idZamowienia;
-	public PolaczenieBazy(){
-        dbConnection = (IDbConnection)new SqliteConnection(path);
-	}
-	public Uzytkownik WyszukajUzytkownika(string login, string haslo){
+public static class PolaczenieBazy {
+    private static readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
+	//private int idZamowienia;
+	public static Uzytkownik WyszukajUzytkownika(string login, string haslo){
 		try{
-			dbConnection.Open();
-			IDbCommand dbCommand = dbConnection.CreateCommand();
-        	Debug.Log(login + " " + haslo);
-			dbCommand.CommandText = "SELECT * FROM Uzytkownicy WHERE (Login='" + login + "' AND Haslo='" + haslo + "');";
-			IDataReader reader = dbCommand.ExecuteReader();
+			string sqlQuery = "SELECT * FROM Uzytkownicy WHERE (Login='" + login + "' AND Haslo='" + haslo + "');";
 			Uzytkownik uzytkownik = new Uzytkownik();
         	uzytkownik.ID = -1;
-			while(reader.Read()){
-				uzytkownik.ID = reader.GetInt32(0);
-				uzytkownik.Login = reader.GetString(1);
-				uzytkownik.Haslo = reader.GetString(2);
-				uzytkownik.NazwaFirmy = reader.GetString(3);
-				uzytkownik.Adres = reader.GetString(4);
-				uzytkownik.Imie = reader.GetString(5);
-				uzytkownik.Nazwisko = reader.GetString(6);
-				//uzytkownik.Mail = reader.GetString(7);
-				uzytkownik.NIP = reader.GetInt32(8);
-				uzytkownik.REGON = reader.GetInt32(9);
-				uzytkownik.KRS = reader.GetInt32(10);
-				uzytkownik.PoziomDostepu = reader.GetInt32(11);
-			}
-        	if (uzytkownik.ID == -1) return null;
+
+			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
+    			connection.Open();
+
+    			using (IDbCommand command = connection.CreateCommand()) {
+					command.CommandText = sqlQuery;
+					using (IDataReader reader = command.ExecuteReader()){
+						while(reader.Read()){
+							uzytkownik.ID = reader.GetInt32(0);
+							uzytkownik.Login = reader.GetString(1);
+							uzytkownik.Haslo = reader.GetString(2);
+							uzytkownik.NazwaFirmy = reader.GetString(3);
+							uzytkownik.Adres = reader.GetString(4);
+							uzytkownik.Imie = reader.GetString(5);
+							uzytkownik.Nazwisko = reader.GetString(6);
+							if(!reader.GetString(7).Equals(null))
+								uzytkownik.Mail = reader.GetString(7);
+							uzytkownik.NIP = reader.GetInt32(8);
+							uzytkownik.REGON = reader.GetInt32(9);
+							if(!reader.GetString(10).Equals(null))
+								uzytkownik.KRS = reader.GetInt32(10);
+							uzytkownik.PoziomDostepu = reader.GetInt32(11);
+						}
+					}
+    			}
+  			}
+        	//Debug.Log(login + " " + haslo);
+        	if (uzytkownik.ID == -1) 
+				return null;
+
 			Debug.Log("id:"+uzytkownik.ID);
         	Debug.Log("login:" + uzytkownik.Login);
         	Debug.Log("haslo:" + uzytkownik.Haslo);
         	Debug.Log("imie:" + uzytkownik.Imie);
         	Debug.Log("nazwisko:" + uzytkownik.Nazwisko);
-			dbConnection.Close();
+
         	return uzytkownik;
 		}catch(Exception e){
 			Debug.Log("Blad przy wyszukiwianiu uzytkownika");
@@ -59,19 +61,23 @@ public class PolaczenieBazy: MonoBehaviour {
 		return null;
 	}
 
-	public List<Przedmiot> ZwrocWszystkiePrzedmioty(){
+	public static List<Przedmiot> ZwrocWszystkiePrzedmioty(){
 		List<Przedmiot> ListaPrzedmiotow = ZwrocListePrzedmiotow("SELECT * FROM Przedmioty;");
-		if (ListaPrzedmiotow.Count == 0) return null;
-        else return ListaPrzedmiotow;
+		if (ListaPrzedmiotow.Count == 0) 
+			return null;
+        else 
+			return ListaPrzedmiotow;
 	}
 
-	public List<Przedmiot> ZwrocWszystkiePrzedmiotyPoNazwie(string zawiera){
+	public static List<Przedmiot> ZwrocWszystkiePrzedmiotyPoNazwie(string zawiera){
         List<Przedmiot>  tmp = ZwrocListePrzedmiotow("SELECT * FROM Przedmioty WHERE (Nazwa LIKE '%" + zawiera + "%');");
-        if (tmp.Count == 0) return null;
-        else return tmp;
+        if (tmp.Count == 0) 
+			return null;
+        else 
+			return tmp;
     }
 
-	public void ZmienHaslo(Uzytkownik uzytkownik, string noweHaslo){
+	public static void ZmienHaslo(Uzytkownik uzytkownik, string noweHaslo){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "UPDATE Uzytkownicy SET Haslo='" + noweHaslo + "' WHERE (Login='" + uzytkownik.Login + "' AND id='" + uzytkownik.ID + "');";
@@ -80,7 +86,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		dbConnection.Close();
 	}
 
-	public String DodajNowegoUzytkownika(Uzytkownik uzytkownik){
+	public static String DodajNowegoUzytkownika(Uzytkownik uzytkownik){
 		try{
 			dbConnection.Open();
 			IDbCommand dbCommand = dbConnection.CreateCommand();
@@ -97,7 +103,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		return "Uzytkownik pomyslnie dodany";
 	}
 
-	public void DodajNoweZamowienie(Zamowienie zamowienie){
+	public static void DodajNoweZamowienie(Zamowienie zamowienie){
 		dbConnection.Open();
 
 		new Thread(() =>{
@@ -129,7 +135,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		dbConnection.Close();
 	}
 
-	public List<Zamowienie> ZwrocListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
+	public static List<Zamowienie> ZwrocListeZamowienDoUzytkownika(Uzytkownik uzytkownik){
 		List<Zamowienie> listaZamowien = new List<Zamowienie>();
 		dbConnection.Open();
 		try{
@@ -157,7 +163,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		return listaZamowien;
 	}
 
-	public List<Zamowienie> ZwrocWszystkieZamowieniaPoRealizacji(){
+	public static List<Zamowienie> ZwrocWszystkieZamowieniaPoRealizacji(){
 		List<Zamowienie> listaZamowien = new List<Zamowienie>();
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
@@ -181,7 +187,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		return listaZamowien;
 	}
 
-	public void ZmienStatusZamowieniaPlusJeden(int idZamowienia, int nowyPostep){
+	public static void ZmienStatusZamowieniaPlusJeden(int idZamowienia, int nowyPostep){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "UPDATE Zamowienia SET PostepZamowienia='"+ nowyPostep +"' WHERE (ID = '" + idZamowienia + "');";
@@ -189,7 +195,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		dbConnection.Close();
 	}
 
-	private List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
+	private static List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = "SELECT * FROM PrzedmiotyZamowienia WHERE (ID_Zamowienia = '" + idZamowienia + "');";
@@ -216,7 +222,7 @@ public class PolaczenieBazy: MonoBehaviour {
 		return listaPrzedmiotow;
 	}
 
-	private List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
+	private static List<Przedmiot> ZwrocListePrzedmiotow(string komenda){
 		dbConnection.Open();
 		IDbCommand dbCommand = dbConnection.CreateCommand();
 		dbCommand.CommandText = komenda;
