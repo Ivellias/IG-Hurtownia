@@ -519,18 +519,20 @@ MonoBehaviour:
   wyszukiwanie: {fileID: 1710629407445692, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
   opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
+  rick: {fileID: 1543082977460854, guid: f91f0226a0ac5ca4f8b52a9862307c5c, type: 2}
   rejestracja: {fileID: 0}
   zarzadzanieTowarem: {fileID: 1566524807815374, guid: 193044cdd47523e489f21a01129428be,
     type: 2}
   koszyk: {fileID: 0}
   zamowieniaUzytkownika: {fileID: 0}
-  zamowieniaPracownika: {fileID: 1622347896519128, guid: 4c41b275952b190478adcaacda8c50ae,
+  zamowieniaPracownika: {fileID: 1287135546097968, guid: 4c41b275952b190478adcaacda8c50ae,
     type: 2}
   uzytkownicy: {fileID: 1586792677910958, guid: 22eeb0b6f1056574898ee1cc39722893,
     type: 2}
   tworzenieUzytkownika: {fileID: 1326967637058176, guid: 4cba00a1a56fb87408fb9f67e1d373cf,
     type: 2}
   dodajTowar: {fileID: 1273965523109814, guid: 19985461b0ee3a440b58334f025c592a, type: 2}
+  raport: {fileID: 0}
 --- !u!224 &295702775
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1055,12 +1057,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 295702774}
+        m_MethodName: FakturyAdministratora
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1795,12 +1797,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 295702774}
+        m_MethodName: Raport
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1987,6 +1989,8 @@ GameObject:
   - component: {fileID: 1306305829}
   - component: {fileID: 1306305828}
   - component: {fileID: 1306305827}
+  - component: {fileID: 1306305831}
+  - component: {fileID: 1306305830}
   m_Layer: 5
   m_Name: LOGO
   m_TagString: Untagged
@@ -2018,7 +2022,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1306305825}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -2050,7 +2054,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1306305828}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1306305830}
+        m_MethodName: Wywolaj
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1306305828
@@ -2087,6 +2102,35 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1306305825}
   m_CullTransparentMesh: 0
+--- !u!114 &1306305830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306305825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d7481dfedef404982b1e293cd416eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &1306305831
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306305825}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fc940d809b77ff447b2d53c510507c05, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1445308915
 GameObject:
   m_ObjectHideFlags: 0

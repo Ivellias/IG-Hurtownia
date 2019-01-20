@@ -13,10 +13,14 @@ public class logoEasterEgg : MonoBehaviour {
     public void Wywolaj()
     {
         kanter++;
-        if(kanter == 3)
+        if(kanter%5 == 0)
         {
             GetComponent<Animator>().Play("ObrocSie");
+        }
+        if(kanter == 84)
+        {
             kanter = 0;
+            GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().Rick();
         }
     }
 

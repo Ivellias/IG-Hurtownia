@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject inputWyszukiwania;
     public GameObject wyszukiwanie;
     public GameObject opcje;
+    public GameObject rick;
     public GameObject rejestracja;
     public GameObject zarzadzanieTowarem;
     public GameObject koszyk;
@@ -21,6 +21,9 @@ public class ImplementacjaSrodka : MonoBehaviour {
     public GameObject uzytkownicy;
     public GameObject tworzenieUzytkownika;
     public GameObject dodajTowar;
+    public GameObject raport;
+    //public GameObject fakturyUzytkownika;
+    //public GameObject fakturyAdministratora;
 
     //tutaj jest lista
     private List<GameObject> listaObiektow = new List<GameObject>();
@@ -89,15 +92,45 @@ public class ImplementacjaSrodka : MonoBehaviour {
         SprawdzScroll(wysokosc);
     }
 
+    public void Raport()
+    {
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(raport, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
 
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+    }
+
+    
 	public void FakturyUzytkownika()
     {
+        /*
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
 
-	}
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+        */
+    }
 
     public void FakturyAdministratora()
     {
+        /*
+        UsunWszystkiePrefaby();
+        GameObject prefab = Instantiate(, gameObject.transform);
+        float wysokosc = prefab.GetComponent<IOnStart>().doStartThingsAndReturnHeightOfThisElement();
 
+        UstawWysokosc(wysokosc);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+        SprawdzScroll(wysokosc);
+        */
     }
 
     public void Koszyk()
@@ -204,6 +237,13 @@ public class ImplementacjaSrodka : MonoBehaviour {
         SprawdzScroll(wysokosc);
     }
 
+    public void Rick()
+    {
+        GameObject prefab = Instantiate(rick, gameObject.transform);
+        //DODAJ DO LISTY PREFABOW
+        listaObiektow.Add(prefab);
+    }
+
 	private GameObject UstawPrefab(string tytul, string tekst){
 		UsunWszystkiePrefaby();
 		GameObject prefab = Instantiate(samTekst, gameObject.transform);
@@ -227,6 +267,7 @@ public class ImplementacjaSrodka : MonoBehaviour {
 
     private void SprawdzScroll(float wysokosc)
     {
+        GameObject.FindGameObjectWithTag("Scroll").GetComponent<Scrollbar>().value = 1;
         if (wysokosc <= 500)
         {
             scrollBar.GetComponent<Image>().enabled = false;
@@ -240,10 +281,6 @@ public class ImplementacjaSrodka : MonoBehaviour {
     }
 
 	private void UsunWszystkiePrefaby(){
-        //xD
-		//GameObject.Destroy(zamowienia, 0f);
-		//GameObject.Destroy(faktury, 0f);
-		//GameObject.Destroy(opcje, 0f);
 
         //USUN WSZYSTKIE ELEMENTY Z LISTY PREFABOW
         if(listaObiektow.Count != 0){

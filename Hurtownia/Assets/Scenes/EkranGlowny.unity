@@ -1483,6 +1483,7 @@ MonoBehaviour:
   wyszukiwanie: {fileID: 1710629407445692, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
   opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
+  rick: {fileID: 1543082977460854, guid: f91f0226a0ac5ca4f8b52a9862307c5c, type: 2}
   rejestracja: {fileID: 1671589462028388, guid: 1ce388246afebd442826a4286e36196d,
     type: 2}
   zarzadzanieTowarem: {fileID: 0}
@@ -1492,6 +1493,7 @@ MonoBehaviour:
   uzytkownicy: {fileID: 0}
   tworzenieUzytkownika: {fileID: 0}
   dodajTowar: {fileID: 0}
+  raport: {fileID: 0}
 --- !u!222 &1385732227
 CanvasRenderer:
   m_ObjectHideFlags: 0
