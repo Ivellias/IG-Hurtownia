@@ -398,7 +398,7 @@ public static class PolaczenieBazy {
 	private static List<Przedmiot> ZwrocListePrzedmiotowDlaZamowienia(int idZamowienia){
 		try{
 			List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
-			int idPrzedmiotu = 0;
+			List<int> idPrzedmiotow = new List<int>();
 
 			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
     			connection.Open();
@@ -408,27 +408,29 @@ public static class PolaczenieBazy {
 					command.CommandText = sqlQuery;
 					using (IDataReader reader = command.ExecuteReader()){
 						while(reader.Read()){
-							idPrzedmiotu = reader.GetInt32(1);
+							idPrzedmiotow.Add(reader.GetInt32(1));
 						}
 					}
     			}
 				
-				using (IDbCommand command = connection.CreateCommand()) {
-					string sqlQuery = "SELECT * FROM Przedmioty WHERE (id = '" + idPrzedmiotu + "');";
-					command.CommandText = sqlQuery;
-					using (IDataReader reader = command.ExecuteReader()){
-						while(reader.Read()){
-							Przedmiot przedmiot = new Przedmiot{
-                				ID = reader.GetInt32(0),
-                				Nazwa = reader.GetString(1),
-                				Cena = reader.GetFloat(2),
-                				CalkowitaIlosc = reader.GetInt32(3),
-                				Opis = reader.GetString(4)
-							};
-            				listaPrzedmiotow.Add(przedmiot);
+				foreach(int idPrzedmiotu in idPrzedmiotow){
+					using (IDbCommand command = connection.CreateCommand()) {
+						string sqlQuery = "SELECT * FROM Przedmioty WHERE (id = '" + idPrzedmiotu + "');";
+						command.CommandText = sqlQuery;
+						using (IDataReader reader = command.ExecuteReader()){
+							while(reader.Read()){
+								Przedmiot przedmiot = new Przedmiot{
+                					ID = reader.GetInt32(0),
+                					Nazwa = reader.GetString(1),
+                					Cena = reader.GetFloat(2),
+                					CalkowitaIlosc = reader.GetInt32(3),
+                					Opis = reader.GetString(4)
+								};
+            					listaPrzedmiotow.Add(przedmiot);
+							}
 						}
-					}
-    			}
+    				}
+				}
   			}
 			return listaPrzedmiotow;
 		}catch(Exception e){
