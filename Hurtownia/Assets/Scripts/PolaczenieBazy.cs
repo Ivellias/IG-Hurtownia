@@ -10,7 +10,8 @@ using Mono.Data.Sqlite;
 using System.Threading;
 
 public static class PolaczenieBazy {
-    private static readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
+    //private static readonly string path = "URI=file:" + Application.dataPath + "/Plugins/SQLite/Hurtownia.s3db";
+	private static readonly string path = "URI=file:" + Application.streamingAssetsPath + "/Hurtownia.s3db";
 	private static int idZamowienia;
 	public static Uzytkownik WyszukajUzytkownika(string login, string haslo){
 		try{
@@ -261,7 +262,6 @@ public static class PolaczenieBazy {
 
 	public static void DodajNoweZamowienie(Zamowienie zamowienie){
 		try{
-
 			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
     			connection.Open();
 
@@ -288,8 +288,8 @@ public static class PolaczenieBazy {
 
 				foreach(Przedmiot przedmiot in zamowienie.ListaPrzedmiotow){
 					using (IDbCommand command = connection.CreateCommand()) {
-						string sqlQuery = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia) VALUES ('"+ przedmiot.ID +
-								"', '" + idZamowienia + "');";
+						string sqlQuery = "INSERT INTO PrzedmiotyZamowienia (ID_Przedmiotu, ID_Zamowienia, ZakupionaIlosc) VALUES ('"+ przedmiot.ID +
+								"', '" + idZamowienia + "', '" + przedmiot.TymczasowaIlosc + "');";
 						command.CommandText = sqlQuery;
 						using (IDataReader reader = command.ExecuteReader()){
 						}
@@ -399,6 +399,7 @@ public static class PolaczenieBazy {
 		try{
 			List<Przedmiot> listaPrzedmiotow = new List<Przedmiot>();
 			List<int> idPrzedmiotow = new List<int>();
+			List<int> iloscZakupionychPrzedmiotow = new List<int>();
 
 			using (IDbConnection connection = new SqliteConnection(path) as IDbConnection) {
     			connection.Open();
@@ -409,6 +410,10 @@ public static class PolaczenieBazy {
 					using (IDataReader reader = command.ExecuteReader()){
 						while(reader.Read()){
 							idPrzedmiotow.Add(reader.GetInt32(1));
+							if(!reader.GetInt32(3).Equals(null))
+								iloscZakupionychPrzedmiotow.Add(reader.GetInt32(3));
+							else
+								iloscZakupionychPrzedmiotow.Add(0);
 						}
 					}
     			}
@@ -424,8 +429,10 @@ public static class PolaczenieBazy {
                 					Nazwa = reader.GetString(1),
                 					Cena = reader.GetFloat(2),
                 					CalkowitaIlosc = reader.GetInt32(3),
-                					Opis = reader.GetString(4)
+                					Opis = reader.GetString(4),
+									TymczasowaIlosc = iloscZakupionychPrzedmiotow[idPrzedmiotow.IndexOf(idPrzedmiotu)]
 								};
+								Debug.Log("Tymczasowa ilosc:" + przedmiot.TymczasowaIlosc);
             					listaPrzedmiotow.Add(przedmiot);
 							}
 						}
