@@ -178,8 +178,7 @@ public static class PolaczenieBazy {
     {
         try
         {
-            string sqlQuery = "DELETE FROM Przedmioty WHERE(id = '" + idPrzedmiotu + "'); ";
-
+            string sqlQuery = "DELETE FROM Przedmioty WHERE(id = '" + idPrzedmiotu + "');";
 
             using (IDbConnection connection = new SqliteConnection(path) as IDbConnection)
             {
@@ -410,13 +409,16 @@ public static class PolaczenieBazy {
 					using (IDataReader reader = command.ExecuteReader()){
 						while(reader.Read()){
 							idPrzedmiotow.Add(reader.GetInt32(1));
-							if(!reader.GetInt32(3).Equals(null))
+							if(reader.GetInt32(3) != 0)
 								iloscZakupionychPrzedmiotow.Add(reader.GetInt32(3));
 							else
 								iloscZakupionychPrzedmiotow.Add(0);
 						}
 					}
     			}
+
+				Debug.Log("IDPrzedmiotow" + idPrzedmiotow.Count);
+				Debug.Log("Ilosc zakupionych przedmiotow: " + iloscZakupionychPrzedmiotow.Count);
 				
 				foreach(int idPrzedmiotu in idPrzedmiotow){
 					using (IDbCommand command = connection.CreateCommand()) {
