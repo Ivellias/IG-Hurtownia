@@ -137,8 +137,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "To jest tekst o nas.\nJeste\u015Bmy hurtowni\u0105 i w og\xF3le.\nMamy
-    25 letnie do\u015Bwiadczenie."
+  m_Text: "To jest tekst o nas.\nJeste\u015Bmy hurtowni\u0105, zajmujemy si\u0119
+    sprzedawaniem du\u017Cej ilo\u015Bci towar\xF3w."
 --- !u!222 &222788498017134172
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -532,7 +532,7 @@ MonoBehaviour:
   tworzenieUzytkownika: {fileID: 1326967637058176, guid: 4cba00a1a56fb87408fb9f67e1d373cf,
     type: 2}
   dodajTowar: {fileID: 1273965523109814, guid: 19985461b0ee3a440b58334f025c592a, type: 2}
-  raport: {fileID: 0}
+  raport: {fileID: 1213562712800492, guid: d12367166cf778346873872b5ea6c6ae, type: 2}
 --- !u!224 &295702775
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1627,7 +1627,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 815078099}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5
+  m_Size: 0.49999997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
