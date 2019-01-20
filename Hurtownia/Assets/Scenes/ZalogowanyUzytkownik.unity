@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 572344219}
   m_Layer: 5
   m_Name: Scrollbar Vertical
-  m_TagString: Untagged
+  m_TagString: Scroll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1019,7 +1019,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 261658864}
   m_HandleRect: {fileID: 261658863}
   m_Direction: 2
-  m_Value: 0.9999999
+  m_Value: 1
   m_Size: 0.5
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2889,10 +2889,12 @@ MonoBehaviour:
   rejestracja: {fileID: 0}
   zarzadzanieTowarem: {fileID: 0}
   koszyk: {fileID: 1399235605678212, guid: 7e8637cd4ef666149a165e601577fed7, type: 2}
-  zamowieniaUzytkownika: {fileID: 1184670119363148, guid: b925642439121f143bda407f9ee61349,
+  zamowieniaUzytkownika: {fileID: 1479173637031454, guid: b925642439121f143bda407f9ee61349,
     type: 2}
   zamowieniaPracownika: {fileID: 0}
   uzytkownicy: {fileID: 0}
+  tworzenieUzytkownika: {fileID: 0}
+  dodajTowar: {fileID: 0}
 --- !u!222 &1941715868
 CanvasRenderer:
   m_ObjectHideFlags: 0

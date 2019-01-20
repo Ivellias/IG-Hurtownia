@@ -73,15 +73,15 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
 
         if(doWyswietlenia.PoziomDostepu == 3)
         {
-            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Button>().enabled = false;
-            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
-            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Text>().enabled = false;
+            transform.GetChild(3).transform.GetChild(1).gameObject.GetComponent<Button>().enabled = false;
+            transform.GetChild(3).transform.GetChild(1).gameObject.GetComponent<Image>().enabled = false;
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().enabled = false;
         }
         else
         {
-            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Button>().enabled = true;
-            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
-            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Text>().enabled = true;
+            transform.GetChild(3).transform.GetChild(1).gameObject.GetComponent<Button>().enabled = true;
+            transform.GetChild(3).transform.GetChild(1).gameObject.GetComponent<Image>().enabled = true;
+            transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().enabled = true;
         }
 
         transform.GetChild(3).transform.GetChild(2).GetComponent<Text>().text = doWyswietlenia.Login + " (" + doWyswietlenia.NazwaFirmy + ")";
@@ -90,6 +90,8 @@ public class Uzytkownicy : MonoBehaviour, IOnStart
         transform.GetChild(3).transform.GetChild(5).GetComponent<Text>().text = "NIP: " + doWyswietlenia.NIP;
         transform.GetChild(3).transform.GetChild(6).GetComponent<Text>().text = "REGON: " + doWyswietlenia.REGON;
         transform.GetChild(3).transform.GetChild(7).GetComponent<Text>().text = "KRS: " + doWyswietlenia.KRS;
+
+        GameObject.FindGameObjectWithTag("Scroll").GetComponent<Scrollbar>().value = 1;
     }
 
 

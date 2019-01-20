@@ -60,6 +60,7 @@ public class ZarzadzanieTowarem1 : MonoBehaviour, IOnStart
         transform.GetChild(3).transform.GetChild(1).transform.GetChild(0).GetComponent<InputField>().text = doWyswietlenia.CalkowitaIlosc.ToString();
         transform.GetChild(3).transform.GetChild(2).transform.GetChild(0).GetComponent<InputField>().text = doWyswietlenia.Cena.ToString();
 
+        GameObject.FindGameObjectWithTag("Scroll").GetComponent<Scrollbar>().value = 1;
     }
 
     public void Zamknijzarzadzaj()

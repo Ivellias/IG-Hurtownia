@@ -7,6 +7,11 @@ public class ObiektZamowieniaUzytkownika : MonoBehaviour
 {
 
     private Zamowienie zamowienie;
+    private GameObject parent;
+    public void SetParent(GameObject x)
+    {
+        parent = x;
+    }
 
     public void UstawZamowienie(Zamowienie doUstawienia)
     {
@@ -31,7 +36,7 @@ public class ObiektZamowieniaUzytkownika : MonoBehaviour
                 }
                 default:
                 {
-                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: BRAK STATUSU";
+                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: Nieznany";
                     break;
                 }
         }
@@ -40,13 +45,9 @@ public class ObiektZamowieniaUzytkownika : MonoBehaviour
 
     public void Szczegoly()
     {
-
+        parent.GetComponent<ZamowieniaUzytkownika>().UstawDoWyswietlenia(zamowienie);
+        parent.GetComponent<ZamowieniaUzytkownika>().WyswietlSzczegoly();
     }
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
 
 }
