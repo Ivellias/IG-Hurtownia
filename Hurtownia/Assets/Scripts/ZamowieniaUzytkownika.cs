@@ -94,7 +94,7 @@ public class ZamowieniaUzytkownika : MonoBehaviour, IOnStart
         Debug.Log(doWyswietlenia.ListaPrzedmiotow.Count);
         foreach(Przedmiot przedmiot in doWyswietlenia.ListaPrzedmiotow)
         {
-            transform.GetChild(2).transform.GetChild(3).GetComponent<Text>().text = transform.GetChild(2).transform.GetChild(3).GetComponent<Text>().text + przedmiot.Nazwa + " (" + przedmiot.CalkowitaIlosc + "), ";
+            transform.GetChild(2).transform.GetChild(3).GetComponent<Text>().text = transform.GetChild(2).transform.GetChild(3).GetComponent<Text>().text + przedmiot.Nazwa + " (" + przedmiot.TymczasowaIlosc + "), ";
         }
         GameObject.FindGameObjectWithTag("Scroll").GetComponent<Scrollbar>().value = 1;
     }
