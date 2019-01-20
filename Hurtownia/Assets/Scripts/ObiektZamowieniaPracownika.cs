@@ -7,6 +7,11 @@ public class ObiektZamowieniaPracownika : MonoBehaviour
 {
 
     private Zamowienie zamowienie;
+    private GameObject parent;
+    public void SetParent(GameObject x)
+    {
+        parent = x;
+    }
 
     public void UstawZamowienie(Zamowienie doUstawienia)
     {
@@ -22,7 +27,7 @@ public class ObiektZamowieniaPracownika : MonoBehaviour
                 }
             case 1:
                 {
-                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: Gotowy do odbioru";
+                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: Do odbioru";
                     break;
                 }
             case 2:
@@ -32,7 +37,7 @@ public class ObiektZamowieniaPracownika : MonoBehaviour
                 }
             default:
                 {
-                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: BRAK STATUSU";
+                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: Nieznany";
                     break;
                 }
         }
@@ -48,7 +53,8 @@ public class ObiektZamowieniaPracownika : MonoBehaviour
 
     public void Szczegoly()
     {
-
+        parent.GetComponent<ZamowieniaPracownika>().UstawDoWyswietlenia(zamowienie);
+        parent.GetComponent<ZamowieniaPracownika>().WyswietlSzczegoly();
     }
 
     public void ZmienStatus()
@@ -57,12 +63,6 @@ public class ObiektZamowieniaPracownika : MonoBehaviour
 
 
         GameObject.FindGameObjectWithTag("Srodek").GetComponent<ImplementacjaSrodka>().ZamowieniaPracownika();//rysowanie na nowo
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-
     }
 
 }

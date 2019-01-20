@@ -26,7 +26,7 @@ public class ObiektZamowieniaUzytkownika : MonoBehaviour
                 }
             case 1:
                 {
-                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: Gotowy do odbioru";
+                    transform.GetChild(2).gameObject.GetComponent<Text>().text = "Status: Do odbioru";
                     break;
                 }
             case 2:

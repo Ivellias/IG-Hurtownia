@@ -74,7 +74,7 @@ public class ZamowieniaUzytkownika : MonoBehaviour, IOnStart
                 }
             case 1:
                 {
-                    transform.GetChild(2).transform.GetChild(1).GetComponent<Text>().text = "Status: Gotowy do odbioru";
+                    transform.GetChild(2).transform.GetChild(1).GetComponent<Text>().text = "Status: Do odbioru";
                     break;
                 }
             case 2:

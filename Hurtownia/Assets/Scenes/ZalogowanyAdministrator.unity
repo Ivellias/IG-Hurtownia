@@ -524,7 +524,7 @@ MonoBehaviour:
     type: 2}
   koszyk: {fileID: 0}
   zamowieniaUzytkownika: {fileID: 0}
-  zamowieniaPracownika: {fileID: 1283888173457308, guid: 4c41b275952b190478adcaacda8c50ae,
+  zamowieniaPracownika: {fileID: 1622347896519128, guid: 4c41b275952b190478adcaacda8c50ae,
     type: 2}
   uzytkownicy: {fileID: 1586792677910958, guid: 22eeb0b6f1056574898ee1cc39722893,
     type: 2}
