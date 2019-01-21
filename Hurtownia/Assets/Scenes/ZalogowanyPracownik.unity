@@ -343,19 +343,19 @@ MonoBehaviour:
   scrollBar: {fileID: 154789710}
   oNas: {fileID: 1593229810555644, guid: c4256979fc6b13d4692d8181f5c41fec, type: 2}
   kontakt: {fileID: 1796570838645318, guid: 8a43692c6f670214e87eba3d92a1ae2b, type: 2}
-  logowanie: {fileID: 1143386585770790, guid: 358ccaf66f9d01a439f9f46bdddaaf4c, type: 2}
+  logowanie: {fileID: 1543593530384504, guid: 358ccaf66f9d01a439f9f46bdddaaf4c, type: 2}
   wylogowano: {fileID: 1188248715642798, guid: 96b9ec4fd2052b449bab17ebe0277875, type: 2}
   inputWyszukiwania: {fileID: 1330089575}
   wyszukiwanie: {fileID: 1768728378801408, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
-  opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
+  opcje: {fileID: 1208321606778384, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
   rick: {fileID: 1543082977460854, guid: f91f0226a0ac5ca4f8b52a9862307c5c, type: 2}
   rejestracja: {fileID: 0}
   zarzadzanieTowarem: {fileID: 1566524807815374, guid: 193044cdd47523e489f21a01129428be,
     type: 2}
   koszyk: {fileID: 0}
   zamowieniaUzytkownika: {fileID: 0}
-  zamowieniaPracownika: {fileID: 1287135546097968, guid: 4c41b275952b190478adcaacda8c50ae,
+  zamowieniaPracownika: {fileID: 1064045173841962, guid: 4c41b275952b190478adcaacda8c50ae,
     type: 2}
   uzytkownicy: {fileID: 0}
   tworzenieUzytkownika: {fileID: 0}
@@ -566,7 +566,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1293595965}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5
+  m_Size: 0.49999997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

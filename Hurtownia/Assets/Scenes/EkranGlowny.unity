@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1034633844}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5
+  m_Size: 0.49999997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1477,7 +1477,7 @@ MonoBehaviour:
   scrollBar: {fileID: 1221705429}
   oNas: {fileID: 1593229810555644, guid: c4256979fc6b13d4692d8181f5c41fec, type: 2}
   kontakt: {fileID: 1796570838645318, guid: 8a43692c6f670214e87eba3d92a1ae2b, type: 2}
-  logowanie: {fileID: 1143386585770790, guid: 358ccaf66f9d01a439f9f46bdddaaf4c, type: 2}
+  logowanie: {fileID: 1543593530384504, guid: 358ccaf66f9d01a439f9f46bdddaaf4c, type: 2}
   wylogowano: {fileID: 1188248715642798, guid: 96b9ec4fd2052b449bab17ebe0277875, type: 2}
   inputWyszukiwania: {fileID: 0}
   wyszukiwanie: {fileID: 1710629407445692, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,

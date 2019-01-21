@@ -518,14 +518,14 @@ MonoBehaviour:
   inputWyszukiwania: {fileID: 544553282}
   wyszukiwanie: {fileID: 1710629407445692, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
-  opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
+  opcje: {fileID: 1208321606778384, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
   rick: {fileID: 1543082977460854, guid: f91f0226a0ac5ca4f8b52a9862307c5c, type: 2}
   rejestracja: {fileID: 0}
   zarzadzanieTowarem: {fileID: 1566524807815374, guid: 193044cdd47523e489f21a01129428be,
     type: 2}
   koszyk: {fileID: 0}
   zamowieniaUzytkownika: {fileID: 0}
-  zamowieniaPracownika: {fileID: 1287135546097968, guid: 4c41b275952b190478adcaacda8c50ae,
+  zamowieniaPracownika: {fileID: 1064045173841962, guid: 4c41b275952b190478adcaacda8c50ae,
     type: 2}
   uzytkownicy: {fileID: 1586792677910958, guid: 22eeb0b6f1056574898ee1cc39722893,
     type: 2}

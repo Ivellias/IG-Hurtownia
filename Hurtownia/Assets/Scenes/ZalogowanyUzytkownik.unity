@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 261658863}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5
+  m_Size: 0.49999997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2927,7 +2927,7 @@ MonoBehaviour:
   inputWyszukiwania: {fileID: 638063895}
   wyszukiwanie: {fileID: 1768728378801408, guid: ec76c17914a59dc4e8bbfaccf81ad1b0,
     type: 2}
-  opcje: {fileID: 1893965419099530, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
+  opcje: {fileID: 1208321606778384, guid: 700bf07369d623c479b4470c72d0cb62, type: 2}
   rick: {fileID: 1543082977460854, guid: f91f0226a0ac5ca4f8b52a9862307c5c, type: 2}
   rejestracja: {fileID: 0}
   zarzadzanieTowarem: {fileID: 0}
