@@ -96,6 +96,8 @@ public class ZamowieniaPracownika : MonoBehaviour, IOnStart
 
         transform.GetChild(2).transform.GetChild(2).GetComponent<Text>().text = "Cena: " + doWyswietlenia.CalkowitaKwotaZakupu.ToString();
         transform.GetChild(2).transform.GetChild(3).GetComponent<Text>().text = "Artykuły: ";
+        transform.GetChild(2).transform.GetChild(5).transform.GetChild(0).GetComponent<Text>().text = "Zrealizuj";
+
         Debug.Log(doWyswietlenia.ListaPrzedmiotow.Count);
         foreach (Przedmiot przedmiot in doWyswietlenia.ListaPrzedmiotow)
         {
